@@ -4,6 +4,7 @@ import AddBoxIcon from "@mui/icons-material/AddBox";
 import TwoWheelerIcon from "@mui/icons-material/TwoWheeler";
 import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 import AdminOptions from "../../components/AdminOptions";
+import NewClient from "../../components/NewClient";
 
 const Admin = () => {
   const [value, setValue] = useState(0);
@@ -18,7 +19,7 @@ const Admin = () => {
         <Tab icon={<AddBoxIcon />} label="Nuevo Cliente" />
         <Tab icon={<AdminPanelSettingsIcon />} label="Administrar" />
       </Tabs>
-      {value === 2 ? <AdminOptions /> : null}
+      {value === 1 ? <NewClient /> : value === 2 ? <AdminOptions /> : null}
     </>
   );
 };
