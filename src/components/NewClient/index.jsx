@@ -5,6 +5,8 @@ import SearchIcon from "@mui/icons-material/Search";
 import PhoneIcon from "@mui/icons-material/Phone";
 import ColorSelect from "../ColorSelect";
 import BrandSelect from "../BrandSelect";
+import ComboSelect from "../ComboSelect";
+import TeamSelect from "../TeamSelect";
 
 const NewClient = () => {
   const [person, setPerson] = useState({
@@ -16,6 +18,8 @@ const NewClient = () => {
     plaque: "",
     ColorId: "",
     BrandId: "",
+    ComboId: "",
+    TeamId: "",
   });
 
   const handleChangeMoto = (e) => {
@@ -109,7 +113,18 @@ const NewClient = () => {
               onChange={handleChangePerson}
             />
           </Grid>
-          
+          <Grid item sx={12} sm={6}>
+            <ComboSelect
+              ComboId={moto.ComboId}
+              handleChangeMoto={handleChangeMoto}
+            />
+          </Grid>
+          <Grid item sx={12} sm={12}>
+            <TeamSelect
+              TeamId={moto.TeamId}
+              handleChangeMoto={handleChangeMoto}
+            />
+          </Grid>
         </Grid>
         <Button
           type="submit"
