@@ -9,6 +9,8 @@ import ComboSelect from "../ComboSelect";
 import TeamSelect from "../TeamSelect";
 import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
 import Swal from "sweetalert2";
+import { buscarMotoPlaca, crearMotoPersona } from "../../services/moto";
+import { checkMoto, checkUser } from "../../utils/check";
 
 const NewClient = () => {
   const [person, setPerson] = useState({
@@ -24,7 +26,6 @@ const NewClient = () => {
 
   const [factura, setFactura] = useState({
     ComboId: "",
-    price: 0,
     TeamId: "",
     overrun: 0,
   });
@@ -55,11 +56,35 @@ const NewClient = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    Swal.fire("", "Venta Registrada!", "success");
+    if (checkUser(person) && checkMoto(moto)) {
+      crearMotoPersona({ moto, person, factura }).then((data) => {
+        Swal.fire("", "Venta Registrada!", "success");
+      });
+    } else {
+      Swal.fire("Ups!", "Rellena todos los Campos!", "warning");
+    }
   };
 
   const searchPlaque = () => {
-    console.log(moto);
+    if (!moto.plaque) {
+      Swal.fire("Ups!", "Escribe un placa primero!", "warning");
+    } else {
+      buscarMotoPlaca(moto.plaque)
+        .then(({ BrandId, ColorId, Person }) => {
+          setMoto({
+            ...moto,
+            BrandId,
+            ColorId,
+          });
+          setPerson({
+            phone: Person.phone,
+            fullName: Person.fullName,
+          });
+        })
+        .catch(() => {
+          Swal.fire("", "No se encuentra registrada", "success");
+        });
+    }
   };
 
   return (

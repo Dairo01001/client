@@ -6,20 +6,19 @@ import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import login from "../../services/login";
+import {signup} from "../../services/login";
 import PercentIcon from "@mui/icons-material/Percent";
 import { InputAdornment } from "@mui/material";
 
 const SignUp = () => {
   const navigate = useNavigate();
   const user = useSelector((state) => state.user.user);
-  const dispatch = useDispatch();
   const [input, setInput] = React.useState({
     dni: "",
     names: "",
@@ -32,7 +31,7 @@ const SignUp = () => {
   React.useEffect(() => {
     if (!user) {
       Swal.fire("Error!", "Nesecitas estar logueado!", "warning");
-      navigate("/login");
+      navigate("/");
     } else if (user.role !== "ADMIN") {
       Swal.fire("Error!", "No tienes permisos para esta accion!", "error");
       navigate("/admin");
@@ -41,8 +40,7 @@ const SignUp = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    login
-      .signup({ ...input, birthDate: birthDate.toString() }, user.token)
+    signup({ ...input, birthDate: birthDate.toString() }, user.token)
       .then((data) => {
         Swal.fire(
           "Registro Completo",

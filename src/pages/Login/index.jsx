@@ -16,7 +16,7 @@ import Swal from "sweetalert2";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Copyright from "../../components/Copyright";
-import login from "../../services/login";
+import { login } from "../../services/login";
 import { useDispatch } from "react-redux";
 import { addUser } from "../../redux/reducers/userSlice";
 
@@ -31,8 +31,7 @@ const Login = () => {
   const handleOnSubmit = (e) => {
     e.preventDefault();
     if (input.dni && input.password) {
-      login
-        .login(input)
+      login(input)
         .then((data) => {
           dispatch(addUser(data));
           setInput({ dni: "", password: "" });
