@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getTeams } from "../../services/team";
 import { addTeams } from "../../redux/reducers/teamSlice";
-import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import { FormControl, InputLabel, ListItem, ListItemText, MenuItem, Select } from "@mui/material";
 
 const TeamSelect = ({ TeamId, handleChangeMoto }) => {
   const teams = useSelector((state) => state.team.teams);
@@ -19,7 +19,7 @@ const TeamSelect = ({ TeamId, handleChangeMoto }) => {
   return (
     teams && (
       <FormControl fullWidth>
-        <InputLabel id="team">Equipos</InputLabel>
+        <InputLabel id="team">Equipo</InputLabel>
         <Select
           labelId="team"
           name="TeamId"
@@ -28,8 +28,8 @@ const TeamSelect = ({ TeamId, handleChangeMoto }) => {
           onChange={handleChangeMoto}
         >
           {teams.map(({ id, name }) => (
-            <MenuItem key={id} value={id}>
-              {name}
+            <MenuItem key={id} value={id} onClick={() => console.log("Hola")} >
+                {name}
             </MenuItem>
           ))}
         </Select>

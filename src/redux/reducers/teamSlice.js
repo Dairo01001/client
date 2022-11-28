@@ -5,6 +5,7 @@ export const teamSlice = createSlice({
   initialState: {
     teams: null,
     operators: null,
+    employees: null,
   },
   reducers: {
     addTeams: (state, { payload }) => {
@@ -13,8 +14,11 @@ export const teamSlice = createSlice({
     addOperatorsTeam: (state, { payload }) => {
       state.operators = payload;
     },
+    addEmployees: (state, { payload }) => {
+      state.employees = payload;
+    },
   },
 });
 
-export const { addTeams, addOperatorsTeam } = teamSlice.actions;
+export const { addTeams, addOperatorsTeam, addEmployees } = teamSlice.actions;
 export default teamSlice.reducer;

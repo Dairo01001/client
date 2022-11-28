@@ -19,7 +19,7 @@ const BrandSelect = ({ BrandId, handleChangeMoto }) => {
   return (
     brands && (
       <FormControl fullWidth>
-        <InputLabel id="brand">Marcas</InputLabel>
+        <InputLabel id="brand">Marca</InputLabel>
         <Select
           labelId="brand"
           name="BrandId"

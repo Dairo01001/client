@@ -1,4 +1,9 @@
-import { FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
+import {
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+} from "@mui/material";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getCombos } from "../../services/combo";
@@ -19,7 +24,7 @@ const ComboSelect = ({ ComboId, handleChangeMoto }) => {
   return (
     combos && (
       <FormControl fullWidth>
-        <InputLabel id="combo">Combos</InputLabel>
+        <InputLabel id="combo">Combo</InputLabel>
         <Select
           labelId="combo"
           name="ComboId"
@@ -29,7 +34,7 @@ const ComboSelect = ({ ComboId, handleChangeMoto }) => {
         >
           {combos.map(({ id, title, price }) => (
             <MenuItem key={id} value={id}>
-              {`${title} ${price}$`}
+              {title}
             </MenuItem>
           ))}
         </Select>

@@ -7,6 +7,8 @@ import ColorSelect from "../ColorSelect";
 import BrandSelect from "../BrandSelect";
 import ComboSelect from "../ComboSelect";
 import TeamSelect from "../TeamSelect";
+import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
+import Swal from "sweetalert2";
 
 const NewClient = () => {
   const [person, setPerson] = useState({
@@ -18,8 +20,13 @@ const NewClient = () => {
     plaque: "",
     ColorId: "",
     BrandId: "",
+  });
+
+  const [factura, setFactura] = useState({
     ComboId: "",
+    price: 0,
     TeamId: "",
+    overrun: 0,
   });
 
   const handleChangeMoto = (e) => {
@@ -38,6 +45,19 @@ const NewClient = () => {
     });
   };
 
+  const handleChangeFactura = (e) => {
+    const { name, value } = e.target;
+    setFactura({
+      ...factura,
+      [name]: value,
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    Swal.fire("", "Venta Registrada!", "success");
+  };
+
   const searchPlaque = () => {
     console.log(moto);
   };
@@ -51,7 +71,7 @@ const NewClient = () => {
         alignItems: "center",
       }}
     >
-      <Box component="form" sx={{ mt: 3 }}>
+      <Box component="form" sx={{ mt: 3 }} onSubmit={handleSubmit}>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6}>
             <TextField
@@ -71,19 +91,19 @@ const NewClient = () => {
               onChange={handleChangeMoto}
             />
           </Grid>
-          <Grid item sx={12} sm={3}>
+          <Grid item xs={12} sm={3}>
             <ColorSelect
               ColorId={moto.ColorId}
               handleChangeMoto={handleChangeMoto}
             />
           </Grid>
-          <Grid item sx={12} sm={3}>
+          <Grid item xs={12} sm={3}>
             <BrandSelect
               BrandId={moto.BrandId}
               handleChangeMoto={handleChangeMoto}
             />
           </Grid>
-          <Grid item sx={12} sm={12}>
+          <Grid item xs={12} sm={12}>
             <TextField
               name="fullName"
               required
@@ -94,7 +114,7 @@ const NewClient = () => {
               onChange={handleChangePerson}
             />
           </Grid>
-          <Grid item sx={12} sm={6}>
+          <Grid item xs={12} sm={6}>
             <TextField
               name="phone"
               autoComplete="off"
@@ -113,16 +133,28 @@ const NewClient = () => {
               onChange={handleChangePerson}
             />
           </Grid>
-          <Grid item sx={12} sm={6}>
-            <ComboSelect
-              ComboId={moto.ComboId}
-              handleChangeMoto={handleChangeMoto}
+          <Grid item xs={12} sm={6}>
+            <TeamSelect
+              TeamId={factura.TeamId}
+              handleChangeMoto={handleChangeFactura}
             />
           </Grid>
-          <Grid item sx={12} sm={12}>
-            <TeamSelect
-              TeamId={moto.TeamId}
-              handleChangeMoto={handleChangeMoto}
+          <Grid item xs={12} sm={8}>
+            <ComboSelect
+              ComboId={factura.ComboId}
+              handleChangeMoto={handleChangeFactura}
+            />
+          </Grid>
+          <Grid item xs={12} sm={4}>
+            <TextField
+              name="overrun"
+              label="Sobre Costo"
+              fullWidth
+              InputProps={{
+                endAdornment: <MonetizationOnIcon />,
+              }}
+              value={factura.overrun}
+              onChange={handleChangeFactura}
             />
           </Grid>
         </Grid>
