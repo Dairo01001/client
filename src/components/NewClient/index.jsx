@@ -17,7 +17,7 @@ import BrandSelect from "../BrandSelect";
 import ComboSelect from "../ComboSelect";
 import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
 import Swal from "sweetalert2";
-import { buscarMotoPlaca, crearMotoPersona } from "../../services/moto";
+import { buscarMotoPlaca } from "../../services/moto";
 import { useDispatch, useSelector } from "react-redux";
 import {
   changeFactura,
@@ -26,12 +26,8 @@ import {
   setMoto,
   setPerson,
 } from "../../redux/reducers/faturaSlice";
-
-/**
- *
- *  "Check pago y no pago, Editar PrecioFactura, nequi"
- *
- */
+import { checkFactura, checkMoto, checkPerson } from "../../utils/check";
+import { createFacturaPreventa } from "../../services/factura";
 
 const NewClient = () => {
   const persona = useSelector((state) => state.factura.person);
@@ -41,7 +37,12 @@ const NewClient = () => {
 
   const handleChangeMoto = (e) => {
     const { name, value } = e.target;
-    dispatch(changeMoto({ name, value }));
+    dispatch(
+      changeMoto({
+        name,
+        value: name === "plaque" ? value.toUpperCase() : value,
+      })
+    );
   };
 
   const handleChangePerson = (e) => {
@@ -56,9 +57,10 @@ const NewClient = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (true) {
-      crearMotoPersona({ moto, persona, factura })
+    if (checkFactura(factura) && checkPerson(persona) && checkMoto(moto)) {
+      createFacturaPreventa({ moto, persona, factura })
         .then((data) => {
+          console.log(data);
           Swal.fire("", "Venta Registrada!", "success");
         })
         .catch((err) => {
@@ -177,6 +179,7 @@ const NewClient = () => {
             <TextField
               name="overrun"
               label="Sobre Costo"
+              type="number"
               fullWidth
               InputProps={{
                 endAdornment: <MonetizationOnIcon />,
@@ -214,11 +217,11 @@ const NewClient = () => {
           </Grid>
           <Grid item xs={12} sm={4}>
             <FormControl fullWidth>
-              <InputLabel id="paymentMethod">Pago</InputLabel>
+              <InputLabel id="paymentMethod">Metodo Pago</InputLabel>
               <Select
                 labelId="paymentMethod"
                 name="paymentMethod"
-                label="Pago"
+                label="Metodo Pago"
                 value={factura.paymentMethod}
                 onChange={handleChangeFactura}
               >
