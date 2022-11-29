@@ -28,12 +28,14 @@ import {
 } from "../../redux/reducers/faturaSlice";
 import { checkFactura, checkMoto, checkPerson } from "../../utils/check";
 import { createFacturaPreventa } from "../../services/factura";
+import { useNavigate } from "react-router-dom";
 
 const NewClient = () => {
   const persona = useSelector((state) => state.factura.person);
   const moto = useSelector((state) => state.factura.moto);
   const factura = useSelector((state) => state.factura.factura);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleChangeMoto = (e) => {
     const { name, value } = e.target;
@@ -60,8 +62,8 @@ const NewClient = () => {
     if (checkFactura(factura) && checkPerson(persona) && checkMoto(moto)) {
       createFacturaPreventa({ moto, persona, factura })
         .then((data) => {
-          console.log(data);
           Swal.fire("", "Venta Registrada!", "success");
+          navigate(`/venta/${data.id}`);
         })
         .catch((err) => {
           Swal.fire("Ups!", err.response.data.msg, "error");
