@@ -24,11 +24,9 @@ const CreateTeam = () => {
   const [select, setSelect] = useState({ operario1: "", operario2: "" });
 
   useEffect(() => {
-    if (!operarios) {
-      getOperatorsTeam().then((data) => {
-        dispatch(addOperatorsTeam(data));
-      });
-    }
+    getOperatorsTeam().then((data) => {
+      dispatch(addOperatorsTeam(data));
+    });
   }, []);
 
   if (!operarios) {

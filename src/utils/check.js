@@ -1,5 +1,5 @@
-export const checkFactura = (factura) => {
-  return false;
+export const checkFactura = ({ ComboId, TeamId }) => {
+  return Boolean(ComboId && TeamId);
 };
 
 export const checkUser = ({ phone, fullName }) => {

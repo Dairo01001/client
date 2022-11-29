@@ -10,7 +10,13 @@ import TeamSelect from "../TeamSelect";
 import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
 import Swal from "sweetalert2";
 import { buscarMotoPlaca, crearMotoPersona } from "../../services/moto";
-import { checkMoto, checkUser } from "../../utils/check";
+import { checkFactura, checkMoto, checkUser } from "../../utils/check";
+
+/**
+ * 
+ *  "Check pago y no pago, Editar PrecioFactura, nequi"
+ * 
+ */
 
 const NewClient = () => {
   const [person, setPerson] = useState({
@@ -34,7 +40,7 @@ const NewClient = () => {
     const { name, value } = e.target;
     setMoto({
       ...moto,
-      [name]: value,
+      [name]: name === "plaque" ? value.toUpperCase() : value,
     });
   };
 
@@ -56,10 +62,16 @@ const NewClient = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (checkUser(person) && checkMoto(moto)) {
-      crearMotoPersona({ moto, person, factura }).then((data) => {
-        Swal.fire("", "Venta Registrada!", "success");
-      });
+    console.log(person, moto, factura);
+    if (true) {
+      crearMotoPersona({ moto, person, factura })
+        .then((data) => {
+          console.log(data);
+          Swal.fire("", "Venta Registrada!", "success");
+        })
+        .catch((err) => {
+          Swal.fire("Ups!", err.response.data.msg, "error");
+        });
     } else {
       Swal.fire("Ups!", "Rellena todos los Campos!", "warning");
     }
@@ -73,8 +85,8 @@ const NewClient = () => {
         .then(({ BrandId, ColorId, Person }) => {
           setMoto({
             ...moto,
-            BrandId,
-            ColorId,
+            BrandId: BrandId || "",
+            ColorId: ColorId || "",
           });
           setPerson({
             phone: Person.phone,
@@ -82,7 +94,7 @@ const NewClient = () => {
           });
         })
         .catch(() => {
-          Swal.fire("", "No se encuentra registrada", "success");
+          Swal.fire("", "No se encuentra registrada", "warning");
         });
     }
   };
@@ -139,10 +151,11 @@ const NewClient = () => {
               onChange={handleChangePerson}
             />
           </Grid>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={12}>
             <TextField
               name="phone"
               autoComplete="off"
+              type="number"
               required
               fullWidth
               id="phone"
@@ -156,12 +169,6 @@ const NewClient = () => {
               }}
               value={person.phone}
               onChange={handleChangePerson}
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <TeamSelect
-              TeamId={factura.TeamId}
-              handleChangeMoto={handleChangeFactura}
             />
           </Grid>
           <Grid item xs={12} sm={8}>
