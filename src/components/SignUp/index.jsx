@@ -12,9 +12,16 @@ import { useNavigate } from "react-router-dom";
 import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import {signup} from "../../services/login";
+import { signup } from "../../services/login";
 import PercentIcon from "@mui/icons-material/Percent";
-import { InputAdornment } from "@mui/material";
+import {
+  FormControl,
+  InputAdornment,
+  InputLabel,
+  MenuItem,
+  Select,
+} from "@mui/material";
+import { getRoles } from "../../services/roll";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -25,7 +32,9 @@ const SignUp = () => {
     surnames: "",
     phone: "",
     commission: 0,
+    RollId: "",
   });
+  const [roles, setRoles] = React.useState([]);
   const [birthDate, setBirthDate] = React.useState(dayjs("2000-01-01"));
 
   React.useEffect(() => {
@@ -36,6 +45,9 @@ const SignUp = () => {
       Swal.fire("Error!", "No tienes permisos para esta accion!", "error");
       navigate("/admin");
     }
+    getRoles().then((data) => {
+      setRoles(data);
+    });
   }, []);
 
   const handleSubmit = (event) => {
@@ -85,7 +97,7 @@ const SignUp = () => {
         </Typography>
         <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={8}>
+            <Grid item xs={12} sm={6}>
               <TextField
                 required
                 fullWidth
@@ -99,6 +111,24 @@ const SignUp = () => {
               />
             </Grid>
             <Grid item xs={12} sm={4}>
+              <FormControl fullWidth>
+                <InputLabel id="role">Roll</InputLabel>
+                <Select
+                  labelId="role"
+                  name="RollId"
+                  label="Roll"
+                  value={input.RollId}
+                  onChange={handleChange}
+                >
+                  {roles.map(({ id, role }) => (
+                    <MenuItem key={id} value={id}>
+                      {role}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid item xs={12} sm={2}>
               <TextField
                 required
                 fullWidth

@@ -10,11 +10,9 @@ const AuxiliarTable = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!auxiliars) {
-      getAuxiliares().then((data) => {
-        dispatch(addAuxiliars(data));
-      });
-    }
+    getAuxiliares().then((data) => {
+      dispatch(addAuxiliars(data.Employees));
+    });
   }, []);
 
   if (!auxiliars) {

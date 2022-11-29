@@ -1,72 +1,64 @@
-import { Button, Grid, IconButton, TextField } from "@mui/material";
+import {
+  Button,
+  FormControl,
+  Grid,
+  IconButton,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+} from "@mui/material";
 import { Box } from "@mui/system";
-import React, { useState } from "react";
+import React from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import PhoneIcon from "@mui/icons-material/Phone";
 import ColorSelect from "../ColorSelect";
 import BrandSelect from "../BrandSelect";
 import ComboSelect from "../ComboSelect";
-import TeamSelect from "../TeamSelect";
 import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
 import Swal from "sweetalert2";
 import { buscarMotoPlaca, crearMotoPersona } from "../../services/moto";
-import { checkFactura, checkMoto, checkUser } from "../../utils/check";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  changeFactura,
+  changeMoto,
+  changePerson,
+  setMoto,
+  setPerson,
+} from "../../redux/reducers/faturaSlice";
 
 /**
- * 
+ *
  *  "Check pago y no pago, Editar PrecioFactura, nequi"
- * 
+ *
  */
 
 const NewClient = () => {
-  const [person, setPerson] = useState({
-    phone: "",
-    fullName: "",
-  });
-
-  const [moto, setMoto] = useState({
-    plaque: "",
-    ColorId: "",
-    BrandId: "",
-  });
-
-  const [factura, setFactura] = useState({
-    ComboId: "",
-    TeamId: "",
-    overrun: 0,
-  });
+  const persona = useSelector((state) => state.factura.person);
+  const moto = useSelector((state) => state.factura.moto);
+  const factura = useSelector((state) => state.factura.factura);
+  const dispatch = useDispatch();
 
   const handleChangeMoto = (e) => {
     const { name, value } = e.target;
-    setMoto({
-      ...moto,
-      [name]: name === "plaque" ? value.toUpperCase() : value,
-    });
+    dispatch(changeMoto({ name, value }));
   };
 
   const handleChangePerson = (e) => {
     const { name, value } = e.target;
-    setPerson({
-      ...person,
-      [name]: value,
-    });
+    dispatch(changePerson({ name, value }));
   };
 
   const handleChangeFactura = (e) => {
     const { name, value } = e.target;
-    setFactura({
-      ...factura,
-      [name]: value,
-    });
+    dispatch(changeFactura({ name, value }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(person, moto, factura);
     if (true) {
-      crearMotoPersona({ moto, person, factura })
+      crearMotoPersona({ moto, persona, factura })
         .then((data) => {
-          console.log(data);
           Swal.fire("", "Venta Registrada!", "success");
         })
         .catch((err) => {
@@ -83,15 +75,19 @@ const NewClient = () => {
     } else {
       buscarMotoPlaca(moto.plaque)
         .then(({ BrandId, ColorId, Person }) => {
-          setMoto({
-            ...moto,
-            BrandId: BrandId || "",
-            ColorId: ColorId || "",
-          });
-          setPerson({
-            phone: Person.phone,
-            fullName: Person.fullName,
-          });
+          dispatch(
+            setMoto({
+              ...moto,
+              BrandId: BrandId || "",
+              ColorId: ColorId || "",
+            })
+          );
+          dispatch(
+            setPerson({
+              phone: Person.phone,
+              fullName: Person.fullName,
+            })
+          );
         })
         .catch(() => {
           Swal.fire("", "No se encuentra registrada", "warning");
@@ -147,7 +143,7 @@ const NewClient = () => {
               fullWidth
               id="fullName"
               label="Nombre y Apellidos"
-              value={person.fullName}
+              value={persona.fullName}
               onChange={handleChangePerson}
             />
           </Grid>
@@ -167,14 +163,14 @@ const NewClient = () => {
                   </IconButton>
                 ),
               }}
-              value={person.phone}
+              value={persona.phone}
               onChange={handleChangePerson}
             />
           </Grid>
           <Grid item xs={12} sm={8}>
             <ComboSelect
               ComboId={factura.ComboId}
-              handleChangeMoto={handleChangeFactura}
+              handleChangeFactura={handleChangeFactura}
             />
           </Grid>
           <Grid item xs={12} sm={4}>
@@ -188,6 +184,48 @@ const NewClient = () => {
               value={factura.overrun}
               onChange={handleChangeFactura}
             />
+          </Grid>
+          <Grid item xs={12} sm={4}>
+            <TextField
+              name="total"
+              label="Total"
+              fullWidth
+              disabled
+              InputProps={{
+                endAdornment: <MonetizationOnIcon />,
+              }}
+              value={Number(factura.overrun) + Number(factura.price)}
+            />
+          </Grid>
+          <Grid item xs={12} sm={4}>
+            <FormControl fullWidth>
+              <InputLabel id="isPaid">Pago</InputLabel>
+              <Select
+                labelId="isPaid"
+                name="isPaid"
+                label="Pago"
+                value={factura.isPaid}
+                onChange={handleChangeFactura}
+              >
+                <MenuItem value={true}>Si</MenuItem>
+                <MenuItem value={false}>No</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid item xs={12} sm={4}>
+            <FormControl fullWidth>
+              <InputLabel id="paymentMethod">Pago</InputLabel>
+              <Select
+                labelId="paymentMethod"
+                name="paymentMethod"
+                label="Pago"
+                value={factura.paymentMethod}
+                onChange={handleChangeFactura}
+              >
+                <MenuItem value={"Nequi"}>Nequi</MenuItem>
+                <MenuItem value={"Efectivo"}>Efectivo</MenuItem>
+              </Select>
+            </FormControl>
           </Grid>
         </Grid>
         <Button

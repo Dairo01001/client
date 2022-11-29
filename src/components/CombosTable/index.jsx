@@ -21,11 +21,9 @@ const CombosTable = () => {
   const dispath = useDispatch();
 
   useEffect(() => {
-    if (!combos) {
-      getCombos().then((data) => {
-        dispath(addCombos(data));
-      });
-    }
+    getCombos().then((data) => {
+      dispath(addCombos(data));
+    });
   }, []);
 
   if (!combos) {
@@ -62,9 +60,9 @@ const CombosTable = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {combos.map(({ id, title, price }) => (
+          {combos.map(({ id, name, price }) => (
             <TableRow key={id}>
-              <TableCell align="left">{title}</TableCell>
+              <TableCell align="left">{name}</TableCell>
               <TableCell align="left">{price}</TableCell>
               <TableCell>
                 <IconButton onClick={() => eliminarCombo(id)}>

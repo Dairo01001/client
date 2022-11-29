@@ -27,7 +27,7 @@ const CreateTeam = () => {
     getOperatorsTeam().then((data) => {
       dispatch(addOperatorsTeam(data));
     });
-  }, []);
+  }, []); 
 
   if (!operarios) {
     return <Loading />;

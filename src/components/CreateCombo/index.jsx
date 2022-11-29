@@ -10,15 +10,12 @@ import React, { useState } from "react";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import Swal from "sweetalert2";
 import { createCombo, getCombos } from "../../services/combo";
-import { useDispatch } from "react-redux";
-import { addCombos } from "../../redux/reducers/comboSlice";
 import { useNavigate } from "react-router-dom";
 
 const CreateCombo = () => {
-  const dispath = useDispatch();
   const navigate = useNavigate();
   const [input, setInput] = useState({
-    title: "",
+    name: "",
     price: 0,
   });
 
@@ -32,15 +29,12 @@ const CreateCombo = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (input.title.length > 4) {
+    if (input.name.length > 4) {
       createCombo(input)
         .then(() => {
           Swal.fire("", "Combo Creado!", "success");
-          getCombos().then((data) => {
-            dispath(addCombos(data));
-          });
           setInput({
-            title: "",
+            name: "",
             price: 0,
           });
           navigate("/admin");
@@ -75,13 +69,13 @@ const CreateCombo = () => {
             <TextField
               autoComplete="off"
               type="text"
-              label="Titulo"
-              id="title"
+              label="Nombre"
+              id="name"
               fullWidth
               autoFocus
-              name="title"
+              name="name"
               required
-              value={input.title}
+              value={input.name}
               onChange={handleChange}
             />
           </Grid>
