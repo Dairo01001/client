@@ -26,6 +26,14 @@ const Venta = () => {
   useEffect(() => {
     getFacturaId(id)
       .then((data) => {
+        if (data.Employees.length !== 0) {
+          Swal.fire(
+            "Ups!",
+            "Esta moto ya tiene Empleados asignados!",
+            "warning"
+          );
+          navigate("/admin");
+        }
         setData(data);
       })
       .catch((err) => {
@@ -47,7 +55,6 @@ const Venta = () => {
         Employees: employeesTeam.map(({ id }) => id),
       })
         .then((data) => {
-          console.log(data);
           Swal.fire("", "Listo", "success");
         })
         .catch((err) => {
@@ -56,7 +63,7 @@ const Venta = () => {
       navigate("/admin");
     }
   };
-
+  
   return (
     <Box
       sx={{

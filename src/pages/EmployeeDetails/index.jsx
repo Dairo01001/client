@@ -31,7 +31,6 @@ const EmployeeDetails = () => {
     return <Loading />;
   }
 
-  console.log(roles);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
