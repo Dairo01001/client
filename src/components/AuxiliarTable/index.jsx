@@ -13,6 +13,7 @@ const AuxiliarTable = () => {
     getAuxiliares().then((data) => {
       dispatch(addAuxiliars(data.Employees));
     });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (!auxiliars) {

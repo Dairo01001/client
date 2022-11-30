@@ -24,6 +24,7 @@ const TeamTable = () => {
         dispath(addTeams(data));
       });
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (!teams) {

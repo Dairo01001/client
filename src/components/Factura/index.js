@@ -3,7 +3,6 @@ import {
   Page,
   Text,
   View,
-  PDFViewer,
   StyleSheet,
   Image,
   PDFDownloadLink,

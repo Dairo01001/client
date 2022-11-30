@@ -24,6 +24,7 @@ const CombosTable = () => {
     getCombos().then((data) => {
       dispath(addCombos(data));
     });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (!combos) {

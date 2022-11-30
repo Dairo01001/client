@@ -13,6 +13,7 @@ const OperatorsTable = () => {
     getOperators().then((data) => {
       dispatch(addOperators(data));
     });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (!operators) {

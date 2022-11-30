@@ -14,6 +14,7 @@ const BrandSelect = ({ BrandId, handleChangeMoto }) => {
         dispatch(addBrands(data));
       });
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

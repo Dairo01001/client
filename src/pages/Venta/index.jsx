@@ -39,6 +39,7 @@ const Venta = () => {
       .catch((err) => {
         Swal.fire("Ups!", err.response.data.msg, "error");
       });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   if (!data) {

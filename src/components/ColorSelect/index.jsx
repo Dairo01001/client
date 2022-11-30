@@ -14,6 +14,7 @@ const ColorSelect = ({ ColorId, handleChangeMoto }) => {
         dispatch(addColors(data));
       });
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
