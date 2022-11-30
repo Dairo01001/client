@@ -9,7 +9,7 @@ import {
   TextField,
 } from "@mui/material";
 import { Box } from "@mui/system";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import PhoneIcon from "@mui/icons-material/Phone";
 import ColorSelect from "../ColorSelect";
@@ -28,14 +28,15 @@ import {
 } from "../../redux/reducers/faturaSlice";
 import { checkFactura, checkMoto, checkPerson } from "../../utils/check";
 import { createFacturaPreventa } from "../../services/factura";
-import { useNavigate } from "react-router-dom";
+import Factura from "../Factura";
 
 const NewClient = () => {
   const persona = useSelector((state) => state.factura.person);
   const moto = useSelector((state) => state.factura.moto);
   const factura = useSelector((state) => state.factura.factura);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+
+  const [facturaPdf, setFacturaPdf] = useState(null);
 
   const handleChangeMoto = (e) => {
     const { name, value } = e.target;
@@ -46,6 +47,12 @@ const NewClient = () => {
       })
     );
   };
+
+  useEffect(() => {
+    return () => {
+      setFacturaPdf(null);
+    };
+  }, []);
 
   const handleChangePerson = (e) => {
     const { name, value } = e.target;
@@ -62,8 +69,17 @@ const NewClient = () => {
     if (checkFactura(factura) && checkPerson(persona) && checkMoto(moto)) {
       createFacturaPreventa({ moto, persona, factura })
         .then((data) => {
+          setFacturaPdf({
+            isPaid: data.isPaid,
+            description: data.description,
+            paymentMethod: data.paymentMethod,
+            total: data.total,
+            plaque: moto.plaque,
+            fullName: persona.fullName,
+            phone: persona.phone,
+            date: new Date().toLocaleString("es-CO"),
+          });
           Swal.fire("", "Venta Registrada!", "success");
-          navigate(`/venta/${data.id}`);
         })
         .catch((err) => {
           Swal.fire("Ups!", err.response.data.msg, "error");
@@ -242,6 +258,9 @@ const NewClient = () => {
           Preventa
         </Button>
       </Box>
+      <Button variant="contained" fullWidth disabled={!facturaPdf}>
+        {!facturaPdf ? "Imprimir" : <Factura factura={facturaPdf} />}
+      </Button>
     </Box>
   );
 };

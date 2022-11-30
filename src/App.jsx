@@ -13,6 +13,7 @@ import EmployeeDetails from "./pages/EmployeeDetails";
 import Team from "./pages/Team";
 import Combos from "./pages/Combos";
 import Venta from "./pages/Venta";
+import ViewPdf from "./pages/ViewPdf";
 
 const theme = createTheme();
 
@@ -28,6 +29,7 @@ const App = () => (
         <Route path="/team" element={<Team />} />
         <Route path="/combo" element={<Combos />} />
         <Route path="/venta/:id" element={<Venta />} />
+        <Route path="/pdf" element={<ViewPdf />} />
       </Routes>
     </Container>
   </ThemeProvider>
