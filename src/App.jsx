@@ -14,6 +14,7 @@ import Team from "./pages/Team";
 import Combos from "./pages/Combos";
 import Venta from "./pages/Venta";
 import ViewPdf from "./pages/ViewPdf";
+import Person from "./pages/Person";
 
 const theme = createTheme();
 
@@ -26,6 +27,7 @@ const App = () => (
         <Route path="/admin" element={<Admin />} />
         <Route path="/employee" element={<Employee />} />
         <Route path="/employee/:id" element={<EmployeeDetails />} />
+        <Route path="/person/:id" element={<Person />} />
         <Route path="/team" element={<Team />} />
         <Route path="/combo" element={<Combos />} />
         <Route path="/venta/:id" element={<Venta />} />

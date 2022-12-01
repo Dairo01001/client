@@ -93,6 +93,10 @@ const MotosTable = () => {
       <Typography component="h1" variant="h4" textAlign="center" marginTop={5}>
         {data.date}
       </Typography>
+      <Typography
+        component="h6"
+        textAlign="center"
+      >{`Motos lavadas: ${data.motorcycleWashing}`}</Typography>
       <Table>
         <TableHead>
           <TableRow>
@@ -114,7 +118,11 @@ const MotosTable = () => {
                   {isPaid ? <DoneOutlineIcon /> : <NotInterestedIcon />}
                 </IconButton>
               </TableCell>
-              <TableCell align="left">{Motorcycle.plaque}</TableCell>
+              <TableCell align="left">
+                <Link to={`/person/${Motorcycle.PersonId}`}>
+                  {Motorcycle.plaque}{" "}
+                </Link>
+              </TableCell>
               <TableCell align="right">
                 {Employees.length !== 0 ? (
                   <IconButton>
