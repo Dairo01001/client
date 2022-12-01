@@ -97,9 +97,9 @@ const MotosTable = () => {
         <TableHead>
           <TableRow>
             <TableCell>Pago</TableCell>
-            <TableCell align="right">Placa</TableCell>
+            <TableCell align="left">Placa</TableCell>
             <TableCell align="right">Asignar Equipo</TableCell>
-            <TableCell align="right">Eliminar</TableCell>
+            <TableCell></TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -114,7 +114,7 @@ const MotosTable = () => {
                   {isPaid ? <DoneOutlineIcon /> : <NotInterestedIcon />}
                 </IconButton>
               </TableCell>
-              <TableCell align="right">{Motorcycle.plaque}</TableCell>
+              <TableCell align="left">{Motorcycle.plaque}</TableCell>
               <TableCell align="right">
                 {Employees.length !== 0 ? (
                   <IconButton>
