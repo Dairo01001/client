@@ -57,10 +57,10 @@ const MotosTable = () => {
       Swal.fire("Ups!", "Debes estar logueado!", "warning");
       navigate("/");
     } else {
-      if (user.role !== "ADMIN") {
+      if (user.role === "OPERA") {
         Swal.fire(
           "Error!",
-          "Solo el Admin tiene permitido eliminar Facturas!",
+          "Solo el Admin y el Auxiliar tiene permitido eliminar Facturas!",
           "error"
         );
       } else {
