@@ -44,7 +44,7 @@ const MotosTable = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {data.Facturas.map(({ id, isPaid, Motorcycle}) => (
+          {data.Facturas.map(({ id, isPaid, Motorcycle, Employees }) => (
             <TableRow key={id}>
               <TableCell>
                 <IconButton>
@@ -53,9 +53,15 @@ const MotosTable = () => {
               </TableCell>
               <TableCell align="right">{Motorcycle.plaque}</TableCell>
               <TableCell align="right">
-                <IconButton component={Link} to={`/venta/${id}`}>
-                  <AssignmentIndIcon />
-                </IconButton>
+                {Employees.length !== 0 ? (
+                  <IconButton>
+                    <DoneOutlineIcon />
+                  </IconButton>
+                ) : (
+                  <IconButton component={Link} to={`/venta/${id}`}>
+                    <AssignmentIndIcon />
+                  </IconButton>
+                )}
               </TableCell>
             </TableRow>
           ))}

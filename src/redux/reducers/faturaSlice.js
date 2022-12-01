@@ -4,7 +4,7 @@ export const facturaSlice = createSlice({
   name: "factura",
   initialState: {
     person: {
-      phone: 0,
+      phone: "",
       fullName: "",
     },
     moto: {
@@ -14,8 +14,8 @@ export const facturaSlice = createSlice({
     },
     factura: {
       ComboId: "",
-      overrun: 0,
-      price: 0,
+      overrun: "",
+      price: "",
       isPaid: true,
       paymentMethod: "",
     },

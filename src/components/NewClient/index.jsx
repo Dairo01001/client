@@ -23,12 +23,15 @@ import {
   changeFactura,
   changeMoto,
   changePerson,
+  setFactura,
   setMoto,
   setPerson,
 } from "../../redux/reducers/faturaSlice";
 import { checkFactura, checkMoto, checkPerson } from "../../utils/check";
 import { createFacturaPreventa } from "../../services/factura";
 import Factura from "../Factura";
+
+import CircularProgress from "@mui/material/CircularProgress";
 
 const NewClient = () => {
   const persona = useSelector((state) => state.factura.person);
@@ -37,6 +40,7 @@ const NewClient = () => {
   const dispatch = useDispatch();
 
   const [facturaPdf, setFacturaPdf] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const handleChangeMoto = (e) => {
     const { name, value } = e.target;
@@ -67,8 +71,10 @@ const NewClient = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (checkFactura(factura) && checkPerson(persona) && checkMoto(moto)) {
+      setLoading(true);
       createFacturaPreventa({ moto, persona, factura })
         .then((data) => {
+          setLoading(false);
           setFacturaPdf({
             isPaid: data.isPaid,
             description: data.description,
@@ -79,6 +85,28 @@ const NewClient = () => {
             phone: persona.phone,
             date: new Date().toLocaleString("es-CO"),
           });
+          dispatch(
+            setMoto({
+              plaque: "",
+              ColorId: "",
+              BrandId: "",
+            })
+          );
+          dispatch(
+            setPerson({
+              phone: "",
+              fullName: "",
+            })
+          );
+          dispatch(
+            setFactura({
+              ComboId: "",
+              overrun: "",
+              price: "",
+              isPaid: true,
+              paymentMethod: "",
+            })
+          );
           Swal.fire("", "Venta Registrada!", "success");
         })
         .catch((err) => {
@@ -250,13 +278,27 @@ const NewClient = () => {
           </Grid>
         </Grid>
         <Button
-          type="submit"
+          fullWidth
           sx={{ mt: 3, mb: 2 }}
           variant="contained"
-          fullWidth
+          disabled={loading}
+          type="submit"
         >
-          Preventa
+          venta
         </Button>
+        {loading && (
+          <CircularProgress
+            size={24}
+            sx={{
+              color: "green",
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              marginTop: "-12px",
+              marginLeft: "-12px",
+            }}
+          />
+        )}
       </Box>
       <Button variant="contained" fullWidth disabled={!facturaPdf}>
         {!facturaPdf ? "Imprimir" : <Factura factura={facturaPdf} />}
