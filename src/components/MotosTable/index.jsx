@@ -16,6 +16,7 @@ import Loading from "../Loading";
 import AssignmentIndIcon from "@mui/icons-material/AssignmentInd";
 import DoneOutlineIcon from "@mui/icons-material/DoneOutline";
 import NotInterestedIcon from "@mui/icons-material/NotInterested";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Swal from "sweetalert2";
 import { useSelector } from "react-redux";
@@ -102,8 +103,9 @@ const MotosTable = () => {
           <TableRow>
             <TableCell>Pago</TableCell>
             <TableCell align="left">Placa</TableCell>
-            <TableCell align="right">Asignar Equipo</TableCell>
-            <TableCell></TableCell>
+            <TableCell align="right">Equipo</TableCell>
+            <TableCell align="right">Ver Cliente</TableCell>
+            <TableCell align="right">Eliminar</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -118,11 +120,7 @@ const MotosTable = () => {
                   {isPaid ? <DoneOutlineIcon /> : <NotInterestedIcon />}
                 </IconButton>
               </TableCell>
-              <TableCell align="left">
-                <Link to={`/person/${Motorcycle.PersonId}`}>
-                  {Motorcycle.plaque}{" "}
-                </Link>
-              </TableCell>
+              <TableCell align="left">{Motorcycle.plaque}</TableCell>
               <TableCell align="right">
                 {Employees.length !== 0 ? (
                   <IconButton>
@@ -133,6 +131,13 @@ const MotosTable = () => {
                     <AssignmentIndIcon />
                   </IconButton>
                 )}
+              </TableCell>
+              <TableCell align="right">
+                <IconButton
+                  onClick={() => navigate(`/person/${Motorcycle.PersonId}`)}
+                >
+                  <VisibilityIcon />
+                </IconButton>
               </TableCell>
               <TableCell align="right">
                 <IconButton

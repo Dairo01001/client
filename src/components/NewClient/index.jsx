@@ -8,10 +8,12 @@ import {
   Select,
   TextField,
 } from "@mui/material";
-import { Box } from "@mui/system";
+import { Box, Stack } from "@mui/system";
 import React, { useEffect, useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import PhoneIcon from "@mui/icons-material/Phone";
+import WifiProtectedSetupIcon from "@mui/icons-material/WifiProtectedSetup";
+import PointOfSaleIcon from "@mui/icons-material/PointOfSale";
 import ColorSelect from "../ColorSelect";
 import BrandSelect from "../BrandSelect";
 import ComboSelect from "../ComboSelect";
@@ -68,6 +70,31 @@ const NewClient = () => {
     dispatch(changeFactura({ name, value }));
   };
 
+  const clearInputs = () => {
+    dispatch(
+      setMoto({
+        plaque: "",
+        ColorId: "",
+        BrandId: "",
+      })
+    );
+    dispatch(
+      setPerson({
+        phone: "",
+        fullName: "",
+      })
+    );
+    dispatch(
+      setFactura({
+        ComboId: "",
+        overrun: "",
+        price: "",
+        isPaid: true,
+        paymentMethod: "",
+      })
+    );
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (checkFactura(factura) && checkPerson(persona) && checkMoto(moto)) {
@@ -85,28 +112,7 @@ const NewClient = () => {
             phone: persona.phone,
             date: new Date().toLocaleString("es-CO"),
           });
-          dispatch(
-            setMoto({
-              plaque: "",
-              ColorId: "",
-              BrandId: "",
-            })
-          );
-          dispatch(
-            setPerson({
-              phone: "",
-              fullName: "",
-            })
-          );
-          dispatch(
-            setFactura({
-              ComboId: "",
-              overrun: "",
-              price: "",
-              isPaid: true,
-              paymentMethod: "",
-            })
-          );
+          clearInputs();
           Swal.fire("", "Venta Registrada!", "success");
         })
         .catch((err) => {
@@ -277,15 +283,27 @@ const NewClient = () => {
             </FormControl>
           </Grid>
         </Grid>
-        <Button
-          fullWidth
+
+        <Stack
           sx={{ mt: 3, mb: 2 }}
-          variant="contained"
-          disabled={loading}
-          type="submit"
+          minWidth="100%"
+          direction="row"
+          justifyContent="space-around"
+          spacing={2}
         >
-          venta
-        </Button>
+          <Button onClick={clearInputs} variant="contained" endIcon={<WifiProtectedSetupIcon />}>
+            Limpiar
+          </Button>
+          <Button
+            variant="contained"
+            disabled={loading}
+            endIcon={<PointOfSaleIcon />}
+            type="submit"
+          >
+            venta
+          </Button>
+        </Stack>
+
         {loading && (
           <CircularProgress
             size={24}

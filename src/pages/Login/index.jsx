@@ -39,8 +39,7 @@ const Login = () => {
           if (role === "ADMIN" || role === "AUXIL") {
             navigate("/admin");
           } else {
-            Swal.fire("Ups!", "Se esta desarrollando!", "info");
-            navigate(`/`);
+            navigate(`/motos`);
           }
         })
         .catch((err) => {
