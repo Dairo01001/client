@@ -1,19 +1,11 @@
+import { Box, CircularProgress } from "@mui/material";
 import React from "react";
 
 const Loading = () => {
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        minHeight: "70vh",
-        width: "100%",
-      }}
-    >
-      <div className="lds-hourglass"></div>
-    </div>
+    <Box sx={{ display: "flex" }}>
+      <CircularProgress />
+    </Box>
   );
 };
 

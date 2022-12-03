@@ -1,8 +1,16 @@
 import {
   Avatar,
   Button,
+  Collapse,
   Grid,
   IconButton,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
   TextField,
   Typography,
 } from "@mui/material";
@@ -14,11 +22,14 @@ import { getPersonID } from "../../services/person";
 import Loading from "../../components/Loading";
 import ContactPhoneIcon from "@mui/icons-material/ContactPhone";
 import Swal from "sweetalert2";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 
 const Person = () => {
   const { id } = useParams();
   const [persona, setPersona] = useState(null);
   const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     getPersonID(id).then((data) => {
@@ -54,20 +65,10 @@ const Person = () => {
         <PersonIcon />
       </Avatar>
       <Typography component="h1" variant="h5">
-        Cliente
+        {persona.fullName}
       </Typography>
       <Box component="form" sx={{ mt: 3 }}>
         <Grid container spacing={2}>
-          <Grid item xs={12} sm={12}>
-            <TextField
-              name="fullName"
-              disabled
-              label="Nombre Completo"
-              required
-              fullWidth
-              value={persona.fullName}
-            />
-          </Grid>
           <Grid item xs={12} sm={12}>
             <TextField
               name="phone"
@@ -85,13 +86,85 @@ const Person = () => {
               }}
             />
           </Grid>
-          {persona.Motorcycles.map(({ plaque, id }) => (
-            <Grid key={id} item xs={12}>
-              <Typography variant="subtitle1"> {`Moto: ${plaque}`}</Typography>
-            </Grid>
+          {persona.Motorcycles.map((moto) => (
+            <TableContainer sx={{ mt: 3, mb: 2 }} component={Paper}>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <TableCell />
+                    <TableCell>Placa</TableCell>
+                    <TableCell align="right">Marca</TableCell>
+                    <TableCell align="right">Color</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
+                    <TableCell>
+                      <IconButton size="small" onClick={() => setOpen(!open)}>
+                        {open ? (
+                          <KeyboardArrowUpIcon />
+                        ) : (
+                          <KeyboardArrowDownIcon />
+                        )}
+                      </IconButton>
+                    </TableCell>
+                    <TableCell component="th" scope="row">
+                      {moto.plaque}
+                    </TableCell>
+                    <TableCell align="right">{moto.Brand.brand}</TableCell>
+                    <TableCell align="right">{moto.Color.color}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell
+                      style={{ paddingBottom: 0, paddingTop: 0 }}
+                      colSpan={6}
+                    >
+                      <Collapse in={open} timeout="auto" unmountOnExit>
+                        <Box sx={{ margin: 1 }}>
+                          <Typography variant="h6" gutterBottom component="div">
+                            Facturas
+                          </Typography>
+                          <Table size="small">
+                            <TableHead>
+                              <TableRow>
+                                <TableCell>Fecha</TableCell>
+                                <TableCell>Nombre Combo</TableCell>
+                                <TableCell>Precio</TableCell>
+                                <TableCell>Metodo de pago</TableCell>
+                                <TableCell>Total</TableCell>
+                              </TableRow>
+                            </TableHead>
+                            <TableBody>
+                              {moto.Facturas.map(
+                                ({ Fecha, Combo, paymentMethod, total }) => {
+                                  return (
+                                    <TableRow>
+                                      <TableCell>{Fecha.date}</TableCell>
+                                      <TableCell>{Combo.name}</TableCell>
+                                      <TableCell>{Combo.price}</TableCell>
+                                      <TableCell>{paymentMethod}</TableCell>
+                                      <TableCell>{total}</TableCell>
+                                    </TableRow>
+                                  );
+                                }
+                              )}
+                            </TableBody>
+                          </Table>
+                        </Box>
+                      </Collapse>
+                    </TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </TableContainer>
           ))}
         </Grid>
-        <Button onClick={() => navigate("/admin")} fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
+        <Button
+          onClick={() => navigate("/admin")}
+          fullWidth
+          variant="contained"
+          sx={{ mt: 3, mb: 2 }}
+        >
           Atras
         </Button>
       </Box>
