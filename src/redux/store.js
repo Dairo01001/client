@@ -6,6 +6,7 @@ import comboSlice from "./reducers/comboSlice";
 import colorSlice from "./reducers/colorSlice";
 import brandSlice from "./reducers/brandSlice";
 import facturaSlice from "./reducers/faturaSlice";
+import motoSlice from "./reducers/motoSlice";
 
 export default configureStore({
   reducer: {
@@ -16,5 +17,6 @@ export default configureStore({
     color: colorSlice,
     brand: brandSlice,
     factura: facturaSlice,
+    motos: motoSlice,
   },
 });

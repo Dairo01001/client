@@ -9,39 +9,39 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { deleteFactura, getMotosDia, setPagoMoto } from "../../services/moto";
-import Loading from "../Loading";
 import AssignmentIndIcon from "@mui/icons-material/AssignmentInd";
 import DoneOutlineIcon from "@mui/icons-material/DoneOutline";
 import NotInterestedIcon from "@mui/icons-material/NotInterested";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Swal from "sweetalert2";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { addData } from "../../redux/reducers/motoSlice";
+import SearchAppBar from "../SearchAppBar";
 
 const MotosTable = () => {
-  const [data, setData] = useState(null);
+  const auxFacturas = useSelector(state => state.motos.auxFacturas);
   const user = useSelector((state) => state.user.user);
+  const dispach = useDispatch();
   const navigate = useNavigate();
 
   useEffect(() => {
     getMotosDia().then((res) => {
-      setData(res);
+      if (res) {
+        dispach(addData(res));
+      }
     });
   }, []);
-
-  if (!data) {
-    return <Loading />;
-  }
 
   const handleChangePago = (data) => {
     setPagoMoto(data)
       .then(() => {
         Swal.fire("", "Listo", "success");
         getMotosDia().then((res) => {
-          setData(res);
+          dispach(addData(res));
         });
       })
       .catch(() => {
@@ -76,7 +76,7 @@ const MotosTable = () => {
             deleteFactura(id, token)
               .then(() => {
                 getMotosDia().then((res) => {
-                  setData(res);
+                  dispach(addData(res));
                 });
                 Swal.fire("Eliminado!", "", "success");
               })
@@ -91,13 +91,7 @@ const MotosTable = () => {
 
   return (
     <TableContainer component={Paper}>
-      <Typography component="h1" variant="h4" textAlign="center" marginTop={5}>
-        {data.date}
-      </Typography>
-      <Typography
-        component="h6"
-        textAlign="center"
-      >{`Motos lavadas: ${data.motorcycleWashing}`}</Typography>
+     <SearchAppBar />
       <Table>
         <TableHead>
           <TableRow>
@@ -109,7 +103,7 @@ const MotosTable = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {data.Facturas.map(({ id, isPaid, Motorcycle, Employees }) => (
+          {auxFacturas.map(({ id, isPaid, Motorcycle, Employees }) => (
             <TableRow key={id}>
               <TableCell>
                 <IconButton

@@ -87,7 +87,7 @@ const Person = () => {
             />
           </Grid>
           {persona.Motorcycles.map((moto) => (
-            <TableContainer sx={{ mt: 3, mb: 2 }} component={Paper}>
+            <TableContainer key={moto.id} sx={{ mt: 3, mb: 2 }} component={Paper}>
               <Table>
                 <TableHead>
                   <TableRow>
@@ -136,9 +136,9 @@ const Person = () => {
                             </TableHead>
                             <TableBody>
                               {moto.Facturas.map(
-                                ({ Fecha, Combo, paymentMethod, total }) => {
+                                ({ id, Fecha, Combo, paymentMethod, total }) => {
                                   return (
-                                    <TableRow>
+                                    <TableRow key={id}>
                                       <TableCell>{Fecha.date}</TableCell>
                                       <TableCell>{Combo.name}</TableCell>
                                       <TableCell>{Combo.price}</TableCell>
