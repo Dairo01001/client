@@ -13,6 +13,7 @@ import Swal from "sweetalert2";
 import { useDispatch } from "react-redux";
 import { removeUser } from "../../redux/reducers/userSlice";
 import AddToPhotosIcon from '@mui/icons-material/AddToPhotos';
+import FactCheckIcon from '@mui/icons-material/FactCheck';
 
 const AdminOptions = () => {
   const navigate = useNavigate();
@@ -49,6 +50,16 @@ const AdminOptions = () => {
           <AddToPhotosIcon />
         </ListItemIcon>
         <ListItemText primary="Combos" />
+      </ListItemButton>
+      <ListItemButton
+        onClick={() => {
+          navigate("/details");
+        }}
+      >
+        <ListItemIcon>
+          <FactCheckIcon />
+        </ListItemIcon>
+        <ListItemText primary="Detalles ventas" />
       </ListItemButton>
       <ListItemButton
         onClick={() => {

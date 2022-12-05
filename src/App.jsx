@@ -15,6 +15,7 @@ import Combos from "./pages/Combos";
 import Venta from "./pages/Venta";
 import Person from "./pages/Person";
 import MotosEmployee from "./pages/MotosEmployee";
+import DetalleVentas from "./pages/DetalleVentas";
 
 const theme = createTheme();
 
@@ -31,6 +32,7 @@ const App = () => (
         <Route path="/team" element={<Team />} />
         <Route path="/combo" element={<Combos />} />
         <Route path="/venta/:id" element={<Venta />} />
+        <Route path="/details" element={<DetalleVentas />} />
         <Route path="/motos" element={<MotosEmployee />} />
       </Routes>
     </Container>

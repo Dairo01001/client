@@ -11,3 +11,7 @@ export const setEmployeesFactura = async ({ id, Employees }) => {
 export const getFacturaId = async (id) => {
   return (await axios.get(`/api/factura/${id}`)).data;
 };
+
+export const getDetailsFacturas = async () => {
+  return (await axios.get("/api/factura")).data;
+}
