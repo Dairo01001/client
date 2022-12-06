@@ -95,6 +95,7 @@ const MotosTable = () => {
       <Table>
         <TableHead>
           <TableRow>
+            <TableCell>N°</TableCell>
             <TableCell>Pago</TableCell>
             <TableCell align="left">Placa</TableCell>
             <TableCell align="right">Equipo</TableCell>
@@ -103,8 +104,9 @@ const MotosTable = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {auxFacturas.map(({ id, isPaid, Motorcycle, Employees }) => (
+          {auxFacturas.map(({ id, isPaid, Motorcycle, Employees }, index) => (
             <TableRow key={id}>
+              <TableCell>{index + 1}</TableCell>
               <TableCell>
                 <IconButton
                   onClick={() =>
