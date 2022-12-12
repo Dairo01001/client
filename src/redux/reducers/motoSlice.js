@@ -12,16 +12,17 @@ export const motoSlice = createSlice({
     reducers: {
         addData: (state, { payload }) => {
             const { id, date, Facturas, motorcycleWashing } = payload;
+
             state.id = id;
             state.date = date;
-            state.Facturas = Facturas;
-            state.auxFacturas = Facturas;
+            state.Facturas = Facturas.sort((a, b) => a.id - b.id);
+            state.auxFacturas = state.Facturas;
             state.motorcycleWashing = motorcycleWashing;
         },
         search: (state, { payload }) => {
             state.auxFacturas = state.Facturas.filter((fac) => fac.Motorcycle.plaque.includes(payload));
         },
-        restoreAll: (state, { }) => {
+        restoreAll: (state) => {
             state.auxFacturas = state.Facturas;
         }
     }

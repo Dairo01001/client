@@ -8,7 +8,7 @@ import {
 } from "../../redux/reducers/teamSlice";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 
-const TeamSelect = ({ TeamId }) => {
+const TeamSelect = ({ TeamId, setNameTeam}) => {
   const teams = useSelector((state) => state.team.teams);
   const dispatch = useDispatch();
 
@@ -35,7 +35,10 @@ const TeamSelect = ({ TeamId }) => {
             <MenuItem
               key={id}
               value={id}
-              onClick={() => dispatch(addEmployeesTeam(Employees))}
+              onClick={() => {
+                dispatch(addEmployeesTeam(Employees));
+                setNameTeam(name);
+              }}
             >
               {name}
             </MenuItem>
