@@ -14,6 +14,8 @@ import { useDispatch } from "react-redux";
 import { removeUser } from "../../redux/reducers/userSlice";
 import AddToPhotosIcon from '@mui/icons-material/AddToPhotos';
 import FactCheckIcon from '@mui/icons-material/FactCheck';
+import HomeRepairServiceIcon from '@mui/icons-material/HomeRepairService';
+import PointOfSaleIcon from '@mui/icons-material/PointOfSale';
 
 const AdminOptions = () => {
   const navigate = useNavigate();
@@ -50,6 +52,26 @@ const AdminOptions = () => {
           <AddToPhotosIcon />
         </ListItemIcon>
         <ListItemText primary="Combos" />
+      </ListItemButton>
+      <ListItemButton
+        onClick={() => {
+          navigate("/product");
+        }}
+      >
+        <ListItemIcon>
+          <HomeRepairServiceIcon />
+        </ListItemIcon>
+        <ListItemText primary="Productos" />
+      </ListItemButton>
+      <ListItemButton
+        onClick={() => {
+          navigate("/retiro");
+        }}
+      >
+        <ListItemIcon>
+          <PointOfSaleIcon />
+        </ListItemIcon>
+        <ListItemText primary="Caja menor" />
       </ListItemButton>
       <ListItemButton
         onClick={() => {

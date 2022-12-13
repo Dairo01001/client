@@ -39,6 +39,7 @@ const TeamTable = () => {
             <TableCell />
             <TableCell>Nombre Equipo</TableCell>
             <TableCell>Delete</TableCell>
+            <TableCell>Editar</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>

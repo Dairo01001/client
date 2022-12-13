@@ -12,3 +12,5 @@ export const eliminarEquipo = async (id) => {
 export const getOperatorsTeam = async () => {
   return (await axios.get("/api/team?employee=1")).data;
 };
+
+export const getTeamId = async (id) => (await axios.get(`/api/team/${id}`)).data;  
