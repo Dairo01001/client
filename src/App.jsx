@@ -19,6 +19,7 @@ import DetalleVentas from "./pages/DetalleVentas";
 import EditTeam from "./pages/EditTeam";
 import Product from "./pages/Product";
 import CajaMenor from "./pages/CajaMenor";
+import Details from "./pages/Details";
 
 const theme = createTheme();
 

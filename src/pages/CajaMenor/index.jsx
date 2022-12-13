@@ -1,17 +1,18 @@
 import * as React from "react";
-import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import PointOfSaleIcon from "@mui/icons-material/PointOfSale";
-import Typography from "@mui/material/Typography";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { retiroMenor } from "../../services/product";
 import Swal from "sweetalert2";
+import { Tab, Tabs } from "@mui/material";
+import AnalyticsIcon from "@mui/icons-material/Analytics";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
-export default function CajaMenor() {
+ function Retiro() {
   const [input, setInput] = React.useState({ amount: "", description: "" });
   const user = useSelector((state) => state.user.user);
   const navigate = useNavigate();
@@ -48,12 +49,6 @@ export default function CajaMenor() {
         alignItems: "center",
       }}
     >
-      <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-        <PointOfSaleIcon />
-      </Avatar>
-      <Typography component={Link} to={"/admin"} variant="h5">
-        Retiro
-      </Typography>
       <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={12}>
@@ -89,5 +84,29 @@ export default function CajaMenor() {
         </Button>
       </Box>
     </Box>
+  );
+}
+
+
+export default function CajaMenor() {
+  const [value, setValue] = React.useState(0);
+  const handleChange = (e, newValue) => {
+    setValue(newValue);
+  };
+
+  return (
+      <>
+    <Tabs value={value} onChange={handleChange}>
+      <Tab icon={<AnalyticsIcon />} label="Retiros" />
+      <Tab icon={<PointOfSaleIcon />} label="Retiro" />
+      <Tab
+        icon={<ArrowBackIcon />}
+        LinkComponent={Link}
+        to="/admin"
+        label="Admin"
+      />
+    </Tabs>
+    {value === 1 ? <Retiro/> : null}
+    </>
   );
 }
