@@ -11,8 +11,9 @@ import Swal from "sweetalert2";
 import { Tab, Tabs } from "@mui/material";
 import AnalyticsIcon from "@mui/icons-material/Analytics";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import TablaCajaMenor from "./TablaCajaMenor";
 
- function Retiro() {
+function Retiro() {
   const [input, setInput] = React.useState({ amount: "", description: "" });
   const user = useSelector((state) => state.user.user);
   const navigate = useNavigate();
@@ -87,7 +88,6 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
   );
 }
 
-
 export default function CajaMenor() {
   const [value, setValue] = React.useState(0);
   const handleChange = (e, newValue) => {
@@ -95,18 +95,18 @@ export default function CajaMenor() {
   };
 
   return (
-      <>
-    <Tabs value={value} onChange={handleChange}>
-      <Tab icon={<AnalyticsIcon />} label="Retiros" />
-      <Tab icon={<PointOfSaleIcon />} label="Retiro" />
-      <Tab
-        icon={<ArrowBackIcon />}
-        LinkComponent={Link}
-        to="/admin"
-        label="Admin"
-      />
-    </Tabs>
-    {value === 1 ? <Retiro/> : null}
+    <>
+      <Tabs value={value} onChange={handleChange}>
+        <Tab icon={<AnalyticsIcon />} label="Retiros" />
+        <Tab icon={<PointOfSaleIcon />} label="Retiro" />
+        <Tab
+          icon={<ArrowBackIcon />}
+          LinkComponent={Link}
+          to="/admin"
+          label="Admin"
+        />
+      </Tabs>
+      {value === 0 ? <TablaCajaMenor /> : value === 1 ? <Retiro /> : null}
     </>
   );
 }

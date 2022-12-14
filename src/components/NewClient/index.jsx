@@ -90,7 +90,7 @@ const NewClient = () => {
         overrun: "",
         price: "",
         isPaid: true,
-        paymentMethod: "",
+        paymentMethod: "Efectivo",
       })
     );
   };
@@ -277,8 +277,8 @@ const NewClient = () => {
                 value={factura.paymentMethod}
                 onChange={handleChangeFactura}
               >
-                <MenuItem value={"Nequi"}>Nequi</MenuItem>
                 <MenuItem value={"Efectivo"}>Efectivo</MenuItem>
+                <MenuItem value={"Nequi"}>Nequi</MenuItem>
               </Select>
             </FormControl>
           </Grid>

@@ -25,3 +25,5 @@ export const retiroMenor = async (data, token) =>
       headers: { Authorization: `Bearer ${token}` },
     })
   ).data;
+
+export const getRetiros = async () => (await axios.get("/api/retiro")).data;

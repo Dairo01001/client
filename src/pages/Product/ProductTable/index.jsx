@@ -84,7 +84,7 @@ function Row({ id, quantityUnit, name, measure, DrawOutProducts }) {
                       <TableCell component="th" scope="row">
                         {Fecha?.date}
                       </TableCell>
-                      <TableCell>{Employee.names}</TableCell>
+                      <TableCell>{Employee?.names}</TableCell>
                       <TableCell align="right">{`${amount} ${measure}`}</TableCell>
                     </TableRow>
                   ))}
@@ -99,7 +99,7 @@ function Row({ id, quantityUnit, name, measure, DrawOutProducts }) {
 }
 
 export default function ProductTable() {
-  const [products, setProducts] = useState(null);
+  const [products, setProducts] = useState([]);
 
   useEffect(() => {
     getProductsDrawOut().then((data) => {

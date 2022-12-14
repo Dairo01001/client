@@ -16,10 +16,8 @@ import Venta from "./pages/Venta";
 import Person from "./pages/Person";
 import MotosEmployee from "./pages/MotosEmployee";
 import DetalleVentas from "./pages/DetalleVentas";
-import EditTeam from "./pages/EditTeam";
 import Product from "./pages/Product";
 import CajaMenor from "./pages/CajaMenor";
-import Details from "./pages/Details";
 
 const theme = createTheme();
 
@@ -34,7 +32,6 @@ const App = () => (
         <Route path="/employee/:id" element={<EmployeeDetails />} />
         <Route path="/person/:id" element={<Person />} />
         <Route path="/team" element={<Team />} />
-        <Route path="/team/:id" element={<EditTeam />} />
         <Route path="/combo" element={<Combos />} />
         <Route path="/venta/:id" element={<Venta />} />
         <Route path="/details" element={<DetalleVentas />} />

@@ -47,8 +47,6 @@ const Venta = () => {
     return <Loading />;
   }
 
-  console.log(data, nameTeam, observaciones);
-
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!TeamId) {
@@ -59,7 +57,13 @@ const Venta = () => {
         Employees: employeesTeam.map(({ id }) => id),
       })
         .then(() => {
-          const newMessage = `Hola, ${data.Motorcycle.Person.fullName}, el siguiente mensaje es para informarle que su motocicleta  con la placa ${data.Motorcycle.plaque}, ha empezado a ser lavada el equipo a cargo es ${nameTeam}, aquí algunas observaciones: ${observaciones || "Ninguna"}.`
+          const newMessage = `Hola, ${
+            data.Motorcycle.Person.fullName
+          }, el siguiente mensaje es para informarle que su motocicleta  con la placa ${
+            data.Motorcycle.plaque
+          }, ha empezado a ser lavada el equipo a cargo es ${nameTeam}, aquí algunas observaciones: ${
+            observaciones || "Ninguna"
+          }.`;
           setMessage(newMessage);
           getMotosDia().then((res) => {
             dispatch(addData(res));
@@ -120,40 +124,51 @@ const Venta = () => {
               value={data.Combo.description}
             />
           </Grid>
-          <Grid item xs={12} sm={12}>
-            <TeamSelect setNameTeam={setNameTeam} TeamId={TeamId} />
-          </Grid>
+          {!message && (
+            <Grid item xs={12} sm={12}>
+              <TeamSelect setNameTeam={setNameTeam} TeamId={TeamId} />
+            </Grid>
+          )}
           <Grid item xs={12} sm={12}>
             <TeamMenbers />
           </Grid>
-          <Grid item xs={12} sm={12}>
-            <TextareaAutosize
-              style={{ width: "100%", minHeight: 50, fontSize: "1.3rem" }}
-              maxRows={2}
-              value={observaciones}
-              onChange={(e) => setObservaciones(e.target.value)}
-            />
-          </Grid>
+          {!message && (
+            <Grid item xs={12} sm={12}>
+              <TextareaAutosize
+                style={{ width: "100%", minHeight: 50, fontSize: "1.3rem" }}
+                maxRows={2}
+                value={observaciones}
+                onChange={(e) => setObservaciones(e.target.value)}
+              />
+            </Grid>
+          )}
         </Grid>
-        {!message && <Button
-          type="submit"
-          fullWidth
-          variant="contained"
-          sx={{ mt: 3, mb: 2 }}
-        >
-          Listo
-        </Button>}
+        {!message && (
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            sx={{ mt: 3, mb: 2 }}
+          >
+            Listo
+          </Button>
+        )}
 
-        {message && <a
-          href={`https://api.whatsapp.com/send/?phone=$57${data.Motorcycle.Person.phone}&text=${encodeURI(message)}`}
-          target="_blank"
-          rel="noopener noreferrer">
-          Enviar mensaje WhatsApp!
-        </a>}
+        {message && (
+          <a
+            href={`https://api.whatsapp.com/send/?phone=$57${
+              data.Motorcycle.Person.phone
+            }&text=${encodeURI(message)}`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Enviar mensaje WhatsApp!
+          </a>
+        )}
         <Button
           fullWidth
           variant="contained"
-          onClick={() => navigate('/admin')}
+          onClick={() => navigate("/admin")}
           sx={{ mt: 3, mb: 2 }}
         >
           Atras

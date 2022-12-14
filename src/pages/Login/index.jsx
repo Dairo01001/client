@@ -15,7 +15,6 @@ import SendIcon from "@mui/icons-material/Send";
 import Swal from "sweetalert2";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Copyright from "../../components/Copyright";
 import { login } from "../../services/login";
 import { useDispatch } from "react-redux";
 import { addUser } from "../../redux/reducers/userSlice";
@@ -35,7 +34,7 @@ const Login = () => {
         .then((data) => {
           dispatch(addUser(data));
           setInput({ dni: "", password: "" });
-          const { role, id } = data;
+          const { role } = data;
           if (role === "ADMIN" || role === "AUXIL") {
             navigate("/admin");
           } else {
@@ -126,7 +125,6 @@ const Login = () => {
             Entrar
           </Button>
         </Box>
-        <Copyright />
       </Box>
     </div>
   );

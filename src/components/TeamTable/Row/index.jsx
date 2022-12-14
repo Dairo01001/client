@@ -12,7 +12,6 @@ import {
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from '@mui/icons-material/Edit';
 import { Box } from "@mui/system";
 import {
   eliminarEquipo,
@@ -22,11 +21,9 @@ import {
 import Swal from "sweetalert2";
 import { useDispatch } from "react-redux";
 import { addOperatorsTeam, addTeams } from "../../../redux/reducers/teamSlice";
-import { useNavigate } from "react-router-dom";
 
 const Row = ({ id, name, Employees }) => {
   const [open, setOpen] = useState(false);
-  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const deleteTeam = (id) => {
@@ -65,11 +62,6 @@ const Row = ({ id, name, Employees }) => {
         <TableCell>
           <IconButton onClick={() => deleteTeam(id)}>
             <DeleteIcon />
-          </IconButton>
-        </TableCell>
-        <TableCell>
-          <IconButton onClick={() => navigate(`/team/${id}`)}>
-            <EditIcon />
           </IconButton>
         </TableCell>
       </TableRow>

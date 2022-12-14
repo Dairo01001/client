@@ -17,7 +17,7 @@ export const facturaSlice = createSlice({
       overrun: "",
       price: "",
       isPaid: true,
-      paymentMethod: "",
+      paymentMethod: "Efectivo",
     },
   },
   reducers: {
