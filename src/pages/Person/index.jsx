@@ -86,78 +86,102 @@ const Person = () => {
               }}
             />
           </Grid>
-          {persona.Motorcycles.map((moto) => (
-            <TableContainer key={moto.id} sx={{ mt: 3, mb: 2 }} component={Paper}>
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell />
-                    <TableCell>Placa</TableCell>
-                    <TableCell align="right">Marca</TableCell>
-                    <TableCell align="right">Color</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
-                    <TableCell>
-                      <IconButton size="small" onClick={() => setOpen(!open)}>
-                        {open ? (
-                          <KeyboardArrowUpIcon />
-                        ) : (
-                          <KeyboardArrowDownIcon />
-                        )}
-                      </IconButton>
-                    </TableCell>
-                    <TableCell component="th" scope="row">
-                      {moto.plaque}
-                    </TableCell>
-                    <TableCell align="right">{moto.Brand.brand}</TableCell>
-                    <TableCell align="right">{moto.Color.color}</TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell
-                      style={{ paddingBottom: 0, paddingTop: 0 }}
-                      colSpan={6}
-                    >
-                      <Collapse in={open} timeout="auto" unmountOnExit>
-                        <Box sx={{ margin: 1 }}>
-                          <Typography variant="h6" gutterBottom component="div">
-                            Facturas
-                          </Typography>
-                          <Table size="small">
-                            <TableHead>
-                              <TableRow>
-                                <TableCell>Fecha</TableCell>
-                                <TableCell>Nombre Combo</TableCell>
-                                <TableCell>Precio</TableCell>
-                                <TableCell>Metodo de pago</TableCell>
-                                <TableCell>Total</TableCell>
-                              </TableRow>
-                            </TableHead>
-                            <TableBody>
-                              {moto.Facturas.map(
-                                ({ id, Fecha, Combo, paymentMethod, total }) => {
-                                  return (
-                                    <TableRow key={id}>
-                                      <TableCell>{Fecha.date}</TableCell>
-                                      <TableCell>{Combo.name}</TableCell>
-                                      <TableCell>{Combo.price}</TableCell>
-                                      <TableCell>{paymentMethod}</TableCell>
-                                      <TableCell>{total}</TableCell>
-                                    </TableRow>
-                                  );
-                                }
-                              )}
-                            </TableBody>
-                          </Table>
-                        </Box>
-                      </Collapse>
-                    </TableCell>
-                  </TableRow>
-                </TableBody>
-              </Table>
-            </TableContainer>
-          ))}
+          <Grid item xs={12} sm={12}>
+            {persona.Motorcycles.map((moto) => (
+              <TableContainer
+                key={moto.id}
+                sx={{ mt: 3, mb: 2 }}
+                component={Paper}
+              >
+                <Table>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell />
+                      <TableCell>Placa</TableCell>
+                      <TableCell align="right">Marca</TableCell>
+                      <TableCell align="right">Color</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
+                      <TableCell>
+                        <IconButton size="small" onClick={() => setOpen(!open)}>
+                          {open ? (
+                            <KeyboardArrowUpIcon />
+                          ) : (
+                            <KeyboardArrowDownIcon />
+                          )}
+                        </IconButton>
+                      </TableCell>
+                      <TableCell component="th" scope="row">
+                        {moto.plaque}
+                      </TableCell>
+                      <TableCell align="right">{moto.Brand.brand}</TableCell>
+                      <TableCell align="right">{moto.Color.color}</TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell
+                        style={{ paddingBottom: 0, paddingTop: 0 }}
+                        colSpan={6}
+                      >
+                        <Collapse in={open} timeout="auto" unmountOnExit>
+                          <Box sx={{ margin: 1 }}>
+                            <Typography
+                              variant="h6"
+                              gutterBottom
+                              component="div"
+                            >
+                              <a
+                                href={`https://api.whatsapp.com/send/?phone=$57${
+                                  persona.phone
+                                }&text=${encodeURI(
+                                  `Hola, ${persona.fullName}, este mensaje es para informarle que su motocicleta ya esta lista!`
+                                )}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                              >
+                                Moto lista WhatsApp
+                              </a>
+                            </Typography>
+                            <Table size="small">
+                              <TableHead>
+                                <TableRow>
+                                  <TableCell>Fecha</TableCell>
+                                  <TableCell>Nombre Combo</TableCell>
+                                  <TableCell>Precio</TableCell>
+                                  <TableCell>Total</TableCell>
+                                  <TableCell>Equipo</TableCell>
+                                </TableRow>
+                              </TableHead>
+                              <TableBody>
+                                {moto.Facturas.map(
+                                  ({ id, Fecha, Combo, Employees, total }) => {
+                                    return (
+                                      <TableRow key={id}>
+                                        <TableCell>{Fecha.date}</TableCell>
+                                        <TableCell>{Combo.name}</TableCell>
+                                        <TableCell>{Combo.price}</TableCell>
+                                        <TableCell>{total}</TableCell>
+                                        <TableCell>
+                                          {Employees.length === 0
+                                            ? "Sin asignar"
+                                            : Employees[0].Team.name}
+                                        </TableCell>
+                                      </TableRow>
+                                    );
+                                  }
+                                )}
+                              </TableBody>
+                            </Table>
+                          </Box>
+                        </Collapse>
+                      </TableCell>
+                    </TableRow>
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            ))}
+          </Grid>
         </Grid>
         <Button
           onClick={() => navigate("/admin")}
