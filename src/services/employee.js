@@ -10,3 +10,11 @@ export const deleteEmployeeId = async (id, token) =>
       headers: { Authorization: `Bearer ${token}` },
     })
   ).data;
+
+export const updateEmployeeId = async (id, data, token) => {
+  return (
+    await axios.put(`/api/employee/${id}`, data, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+  ).data;
+};

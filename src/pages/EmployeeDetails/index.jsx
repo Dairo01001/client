@@ -8,11 +8,12 @@ import EditIcon from "@mui/icons-material/Edit";
 import Typography from "@mui/material/Typography";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
-import { getEmployeeId } from "../../services/employee";
+import { getEmployeeId, updateEmployeeId } from "../../services/employee";
 import { getRoles } from "../../services/roll";
 import Swal from "sweetalert2";
+import { useSelector } from "react-redux";
 
 export default function EmployeeDetails() {
   const { id } = useParams();
@@ -26,6 +27,8 @@ export default function EmployeeDetails() {
   });
   const [passwords, setPasswords] = useState({ password: "", password1: "" });
   const [roles, setRoles] = useState([]);
+  const user = useSelector((state) => state.user.user);
+  const navigate = useNavigate();
 
   useEffect(() => {
     getEmployeeId(id).then((res) => {
@@ -49,6 +52,23 @@ export default function EmployeeDetails() {
     if (passwords.password !== passwords.password1) {
       return Swal.fire("Error", "Las Contraseñas no coinciden", "error");
     }
+    if (!user) {
+      return Swal.fire("Error", "Las Contraseñas no coinciden", "error");
+    }
+    updateEmployeeId(id, { ...input, password: passwords.password }, user.token)
+      .then((res) => {
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Listo",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        navigate("/admin");
+      })
+      .catch((res) => {
+        Swal.fire("", res.response.data.msg, "error");
+      });
   };
 
   return (
@@ -165,6 +185,13 @@ export default function EmployeeDetails() {
           sx={{ mt: 3, mb: 2 }}
         >
           Actualizar
+        </Button>
+        <Button
+          fullWidth
+          variant="contained"
+          onClick={() => navigate("/admin")}
+        >
+          Atras
         </Button>
       </Box>
     </Box>
