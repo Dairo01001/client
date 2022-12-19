@@ -23,7 +23,9 @@ export const teamSlice = createSlice({
       state.employeesTeam = [...state.employeesTeam, payload];
     },
     removeEmployeeTeam: (state, { payload }) => {
-      state.employeesTeam = state.employeesTeam.filter((id) => id !== payload);
+      state.employeesTeam = state.employeesTeam.filter(
+        ({ id }) => id !== payload
+      );
     },
     addOperatorsTeam: (state, { payload }) => {
       state.operators = payload;

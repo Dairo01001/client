@@ -20,9 +20,10 @@ import Swal from "sweetalert2";
 import { useDispatch, useSelector } from "react-redux";
 import { addData } from "../../redux/reducers/motoSlice";
 import SearchAppBar from "../SearchAppBar";
+import Filter from "../Filter";
 
 const MotosTable = () => {
-  const auxFacturas = useSelector(state => state.motos.auxFacturas);
+  const auxFacturas = useSelector((state) => state.motos.auxFacturas);
   const user = useSelector((state) => state.user.user);
   const dispach = useDispatch();
   const navigate = useNavigate();
@@ -33,7 +34,7 @@ const MotosTable = () => {
         dispach(addData(res));
       }
     });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleChangePago = (data) => {
@@ -91,7 +92,8 @@ const MotosTable = () => {
 
   return (
     <TableContainer component={Paper}>
-     <SearchAppBar />
+      <SearchAppBar />
+      <Filter />
       <Table>
         <TableHead>
           <TableRow>

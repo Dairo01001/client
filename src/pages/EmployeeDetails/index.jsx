@@ -1,150 +1,172 @@
-import {
-  Grid,
-  InputLabel,
-  MenuItem,
-  Select,
-  TextField,
-  Typography,
-} from "@mui/material";
-import { Box } from "@mui/system";
-import React, { useEffect, useState } from "react";
+import React from "react";
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import EditIcon from "@mui/icons-material/Edit";
+import Typography from "@mui/material/Typography";
+import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import { useState } from "react";
 import { useParams } from "react-router-dom";
-import Loading from "../../components/Loading";
+import { useEffect } from "react";
 import { getEmployeeId } from "../../services/employee";
 import { getRoles } from "../../services/roll";
+import Swal from "sweetalert2";
 
-const EmployeeDetails = () => {
+export default function EmployeeDetails() {
   const { id } = useParams();
-  const [input, setInput] = useState(null);
-  const [roles, setRoles] = useState(null);
+  const [input, setInput] = useState({
+    RollId: "",
+    dni: "",
+    names: "",
+    surnames: "",
+    commission: "",
+    phone: "",
+  });
+  const [passwords, setPasswords] = useState({ password: "", password1: "" });
+  const [roles, setRoles] = useState([]);
 
   useEffect(() => {
-    getEmployeeId(id).then((data) => {
-      setInput({ ...data, password1: data.password });
+    getEmployeeId(id).then((res) => {
+      setInput(res);
     });
-    getRoles().then((data) => {
-      setRoles(data);
-    });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  if (!input || !roles) {
-    return <Loading />;
-  }
-
+    getRoles().then((res) => setRoles(res));
+  }, [id]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setInput({
-      ...input,
-      [name]: value,
-    });
+    setInput({ ...input, [name]: value });
+  };
+
+  const handleChangePassword = (e) => {
+    const { name, value } = e.target;
+    setPasswords({ ...passwords, [name]: value });
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    if (passwords.password !== passwords.password1) {
+      return Swal.fire("Error", "Las Contraseñas no coinciden", "error");
+    }
   };
 
   return (
-    <div>
-      <Box
-        sx={{
-          marginTop: 8,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-        }}
-      >
-        <Typography component="h1" variant="h5">
-          Editar Empleado
-        </Typography>
-        <Box
-          component="form"
-          onSubmit={(e) => e.preventDefault()}
-          sx={{ mt: 3 }}
-        >
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                name="names"
-                required
-                fullWidth
-                id="names"
-                label="Nombre(s)"
-                autoComplete="off"
-                value={input.names}
-                onChange={handleChange}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                name="surnames"
-                required
-                fullWidth
-                id="surnames"
-                label="Apellido(s)"
-                autoComplete="off"
-                value={input.surnames}
-                onChange={handleChange}
-              />
-            </Grid>
-            <Grid item xs={12} sm={8}>
-              <TextField
-                name="dni"
-                required
-                fullWidth
-                id="dni"
-                label="Identificacion"
-                autoComplete="off"
-                value={input.dni}
-                onChange={handleChange}
-              />
-            </Grid>
-            <Grid item xs={12} sm={4}>
-              <TextField
-                name="commission"
-                required
-                fullWidth
-                id="commission"
-                label="Comision"
-                autoComplete="off"
-                type="number"
-                value={input.commission}
-                onChange={handleChange}
-              />
-            </Grid>
-            <Grid item xs={12} sm={8}>
-              <TextField
-                name="phone"
-                required
-                fullWidth
-                id="phone"
-                label="Telefono"
-                autoComplete="off"
-                type="number"
-                value={input.phone}
-                onChange={handleChange}
-              />
-            </Grid>
-            <Grid item sx={12} sm={4}>
-              <InputLabel id="labelRoll">Cargo</InputLabel>
+    <Box
+      sx={{
+        marginTop: 8,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+      }}
+    >
+      <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+        <EditIcon />
+      </Avatar>
+      <Typography component="h1" variant="h5">
+        Actualizar Empleado
+      </Typography>
+      <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
+        <Grid container spacing={2}>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              name="names"
+              required
+              fullWidth
+              id="names"
+              label="Nombre(s)"
+              value={input.names}
+              onChange={handleChange}
+              autoFocus
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              required
+              fullWidth
+              id="surnames"
+              label="Apellido(s)"
+              name="surnames"
+              value={input.surnames}
+              onChange={handleChange}
+            />
+          </Grid>
+          <Grid item xs={12} sm={5}>
+            <TextField
+              required
+              fullWidth
+              type="number"
+              id="dni"
+              label="Identificacion"
+              name="dni"
+              value={input.dni}
+              disabled
+            />
+          </Grid>
+          <Grid item xs={12} sm={4}>
+            <FormControl fullWidth>
+              <InputLabel id="role">Roll</InputLabel>
               <Select
-                labelId="labelRoll"
-                id="RollId"
+                labelId="role"
                 name="RollId"
+                label="Roll"
                 value={input.RollId}
                 onChange={handleChange}
               >
-                {roles.map(({ id, role }) => {
-                  return (
-                    <MenuItem key={id} value={id}>
-                      {role}
-                    </MenuItem>
-                  );
-                })}
+                {roles.map(({ id, role }) => (
+                  <MenuItem key={id} value={id}>
+                    {role}
+                  </MenuItem>
+                ))}
               </Select>
-            </Grid>
+            </FormControl>
           </Grid>
-        </Box>
+          <Grid item xs={12} sm={3}>
+            <TextField
+              required
+              fullWidth
+              type="number"
+              id="commission"
+              label="Comision"
+              name="commission"
+              value={input.commission}
+              onChange={handleChange}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              required
+              fullWidth
+              name="password"
+              label="Nueva contraseña"
+              type="password"
+              id="password"
+              value={passwords.password}
+              onChange={handleChangePassword}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              required
+              fullWidth
+              name="password1"
+              label="Repetir contraseña"
+              type="password"
+              id="password1"
+              value={passwords.password1}
+              onChange={handleChangePassword}
+            />
+          </Grid>
+        </Grid>
+        <Button
+          type="submit"
+          fullWidth
+          variant="contained"
+          sx={{ mt: 3, mb: 2 }}
+        >
+          Actualizar
+        </Button>
       </Box>
-    </div>
+    </Box>
   );
-};
-
-export default EmployeeDetails;
+}
