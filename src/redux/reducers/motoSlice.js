@@ -15,7 +15,7 @@ export const motoSlice = createSlice({
 
       state.id = id;
       state.date = date;
-      state.Facturas = Facturas.sort((a, b) => a.id - b.id);
+      state.Facturas = Facturas.sort((a, b) => (a.id - b.id) * -1);
       state.auxFacturas = state.Facturas;
       state.motorcycleWashing = motorcycleWashing;
     },
@@ -35,9 +35,13 @@ export const motoSlice = createSlice({
       } else if (payload === "notPaid") {
         state.auxFacturas = state.Facturas.filter((fac) => !fac.isPaid);
       } else if (payload === "team") {
-        state.auxFacturas = state.Facturas.filter((fac) => fac.Employees.length !== 0);
+        state.auxFacturas = state.Facturas.filter(
+          (fac) => fac.Employees.length !== 0
+        );
       } else if (payload === "notTeam") {
-        state.auxFacturas = state.Facturas.filter((fac) => fac.Employees.length === 0);
+        state.auxFacturas = state.Facturas.filter(
+          (fac) => fac.Employees.length === 0
+        );
       }
     },
   },
