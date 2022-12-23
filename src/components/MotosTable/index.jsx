@@ -108,7 +108,7 @@ const MotosTable = () => {
         <TableBody>
           {auxFacturas.map(({ id, isPaid, Motorcycle, Employees }, index) => (
             <TableRow key={id}>
-              <TableCell>{auxFacturas.length - (index + 1)}</TableCell>
+              <TableCell>{auxFacturas.length - index}</TableCell>
               <TableCell>
                 <IconButton
                   onClick={() =>
