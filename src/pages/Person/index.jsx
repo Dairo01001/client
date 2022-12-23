@@ -52,6 +52,8 @@ const Person = () => {
     });
   };
 
+  console.log(persona);
+
   return (
     <Box
       sx={{
@@ -155,10 +157,10 @@ const Person = () => {
                               </TableHead>
                               <TableBody>
                                 {moto.Facturas.map(
-                                  ({ id, Fecha, Combo, Employees, total }) => {
+                                  ({ id, date, Combo, Employees, total }) => {
                                     return (
                                       <TableRow key={id}>
-                                        <TableCell>{Fecha.date}</TableCell>
+                                        <TableCell>{date}</TableCell>
                                         <TableCell>{Combo.name}</TableCell>
                                         <TableCell>{Combo.price}</TableCell>
                                         <TableCell>{total}</TableCell>
