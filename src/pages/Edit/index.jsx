@@ -53,8 +53,6 @@ export default function Edit() {
     }
   };
 
-  console.log(factura);
-
   return (
     <Box
       sx={{
