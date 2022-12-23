@@ -121,7 +121,7 @@ const MotosTable = () => {
               <TableCell align="left">{Motorcycle.plaque}</TableCell>
               <TableCell align="right">
                 {Employees.length !== 0 ? (
-                  <IconButton>
+                  <IconButton component={Link} to={`/edit/${id}`}>
                     <DoneOutlineIcon />
                   </IconButton>
                 ) : (
