@@ -99,7 +99,11 @@ const NewClient = () => {
     e.preventDefault();
     if (checkFactura(factura) && checkPerson(persona) && checkMoto(moto)) {
       setLoading(true);
-      createFacturaPreventa({ moto, persona, factura })
+      createFacturaPreventa({
+        moto,
+        persona,
+        factura: { ...factura, date: new Date().toLocaleString("es-CO") },
+      })
         .then((data) => {
           setLoading(false);
           setFacturaPdf({
@@ -110,7 +114,7 @@ const NewClient = () => {
             plaque: moto.plaque,
             fullName: persona.fullName,
             phone: persona.phone,
-            date: new Date().toLocaleString("es-CO"),
+            date: data.date,
           });
           clearInputs();
           Swal.fire("", "Venta Registrada!", "success");
@@ -291,7 +295,11 @@ const NewClient = () => {
           justifyContent="space-around"
           spacing={2}
         >
-          <Button onClick={clearInputs} variant="contained" endIcon={<WifiProtectedSetupIcon />}>
+          <Button
+            onClick={clearInputs}
+            variant="contained"
+            endIcon={<WifiProtectedSetupIcon />}
+          >
             Limpiar
           </Button>
           <Button
