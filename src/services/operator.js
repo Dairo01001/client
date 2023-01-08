@@ -6,8 +6,8 @@ export const getOperators = async () => {
 
 export const getGanacias = async (id) => {
   const date = new Date();
-  const formaDate = `${date.getFullYear()}/${date.getMonth() + 1}/${
-    date.getDate() > 9 ? date.getDate() : `0${date.getDate()}`
-  }`;
+  const formaDate = `${date.getFullYear()}/${
+    date.getMonth() + 1 > 9 ? date.getMonth() + 1 : `0${date.getMonth() + 1}`
+  }/${date.getDate() > 9 ? date.getDate() : `0${date.getDate()}`}`;
   return (await axios.get(`/api/operator/${id}?date=${formaDate}`)).data;
 };
