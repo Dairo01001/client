@@ -19,8 +19,6 @@ export default function EmployeeWashing() {
     });
   }, []);
 
-  console.log(empleados);
-
   return (
     <TableContainer component={Paper}>
       <Table>

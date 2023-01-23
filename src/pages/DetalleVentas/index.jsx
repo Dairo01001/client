@@ -9,6 +9,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import AppBarBasic from "../../components/AppBarBasic";
+import { Link } from "react-router-dom";
 
 export default function DetalleVentas() {
   const [data, setData] = useState(null);
@@ -41,7 +42,7 @@ export default function DetalleVentas() {
               key={id}
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >
-              <TableCell component="th" scope="row">
+              <TableCell component={Link} scope="row" to={`/report/${id}`}>
                 {date}
               </TableCell>
               <TableCell align="right">{detail.Efectivo}</TableCell>
