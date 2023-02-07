@@ -16,6 +16,7 @@ import AddToPhotosIcon from '@mui/icons-material/AddToPhotos';
 import FactCheckIcon from '@mui/icons-material/FactCheck';
 import HomeRepairServiceIcon from '@mui/icons-material/HomeRepairService';
 import PointOfSaleIcon from '@mui/icons-material/PointOfSale';
+import SummarizeIcon from '@mui/icons-material/Summarize';
 
 const AdminOptions = () => {
   const navigate = useNavigate();
@@ -82,6 +83,16 @@ const AdminOptions = () => {
           <FactCheckIcon />
         </ListItemIcon>
         <ListItemText primary="Detalles ventas" />
+      </ListItemButton>
+      <ListItemButton
+        onClick={() => {
+          navigate("/report");
+        }}
+      >
+        <ListItemIcon>
+          <SummarizeIcon />
+        </ListItemIcon>
+        <ListItemText primary="Reportes" />
       </ListItemButton>
       <ListItemButton
         onClick={() => {
