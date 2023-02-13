@@ -19,7 +19,6 @@ import Product from "./pages/Product";
 import CajaMenor from "./pages/CajaMenor";
 import Sales from "./pages/Sales";
 import Edit from "./pages/Edit";
-import Report from "./pages/Report";
 import ReportData from "./pages/ReportData";
 
 const theme = createTheme();
@@ -42,7 +41,6 @@ const App = () => (
         <Route path="/motos" element={<MotosEmployee />} />
         <Route path="/retiro" element={<CajaMenor />} />
         <Route path="/edit/:id" element={<Edit />} />
-        <Route path="/report/:id" element={<Report />} />
         <Route path="/report" element={<ReportData />} />
       </Routes>
     </Container>

@@ -70,6 +70,7 @@ export default function ReportData() {
             <InputLabel htmlFor="year">Año</InputLabel>
             <Input
               name="year"
+              type="number"
               value={input.year}
               onChange={handleChange}
               required
@@ -82,6 +83,7 @@ export default function ReportData() {
             <InputLabel htmlFor="mount">Mes</InputLabel>
             <Input
               name="mount"
+              type="number"
               value={input.mount}
               onChange={handleChange}
               required
@@ -94,6 +96,7 @@ export default function ReportData() {
             <InputLabel htmlFor="day">Día</InputLabel>
             <Input
               name="day"
+              type="number"
               value={input.day}
               onChange={handleChange}
               id="day"
