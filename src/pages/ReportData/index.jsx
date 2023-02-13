@@ -11,7 +11,7 @@ import { Box } from "@mui/system";
 import React, { useState } from "react";
 import Swal from "sweetalert2";
 import SendIcon from "@mui/icons-material/Send";
-import XLSX from "https://cdn.sheetjs.com/xlsx-0.19.2/package/xlsx.mjs";
+import { utils, writeFile } from "xlsx";
 import { getData, getDataDrawOut } from "../../services/report";
 import { formatDate } from "../../utils/formatDate";
 
@@ -46,15 +46,15 @@ export default function ReportData() {
         ? await getDataDrawOut(stringDate)
         : await getData(stringDate);
 
-    const worksheet = XLSX.utils.json_to_sheet(data.data);
-    const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, "Reporte");
+    const worksheet = utils.json_to_sheet(data.data);
+    const workbook = utils.book_new();
+    utils.book_append_sheet(workbook, worksheet, "Reporte");
 
-    XLSX.utils.sheet_add_aoa(worksheet, data.header, {
+    utils.sheet_add_aoa(worksheet, data.header, {
       origin: "A1",
     });
 
-    XLSX.writeFile(workbook, `${typeReport}_${stringDate}.xlsx`, {
+    writeFile(workbook, `${typeReport}_${stringDate}.xlsx`, {
       compression: true,
     });
   };
@@ -62,7 +62,7 @@ export default function ReportData() {
   return (
     <Box component="form" onSubmit={handleSubmit}>
       <Grid item xs={12}>
-        <h1 style={{ textAlign: "center", color: "blue"}}>Reportes</h1>
+        <h1 style={{ textAlign: "center", color: "blue" }}>Reportes</h1>
       </Grid>
       <Grid container spacing={2}>
         <Grid item xs={4}>

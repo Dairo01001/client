@@ -27,7 +27,8 @@
     "react-router-dom": "6.4.3",
     "react-scripts": "5.0.1",
     "sweetalert2": "11.6.11",
-    "web-vitals": "2.1.4"
+    "web-vitals": "2.1.4",
+    "xlsx": "https://cdn.sheetjs.com/xlsx-0.19.2/xlsx-0.19.2.tgz"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -52,10 +53,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "browser": {
-    "fs": false,
-    "path": false,
-    "os": false
   }
 }
