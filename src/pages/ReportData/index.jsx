@@ -1,12 +1,25 @@
-import { Button, FormControl, Grid, Input, InputLabel } from "@mui/material";
+import {
+  Button,
+  FormControl,
+  Grid,
+  Input,
+  InputLabel,
+  MenuItem,
+  Select,
+} from "@mui/material";
 import { Box } from "@mui/system";
 import React, { useState } from "react";
 import Swal from "sweetalert2";
 import SendIcon from "@mui/icons-material/Send";
+import XLSX from "https://cdn.sheetjs.com/xlsx-0.19.2/package/xlsx.mjs";
+import { getData, getDataDrawOut } from "../../services/report";
 import { formatDate } from "../../utils/formatDate";
+
+const typeReports = ["Motos", "Retiros"];
 
 export default function ReportData() {
   const [input, setInput] = useState({ year: "", mount: "", day: "" });
+  const [typeReport, setTypeReport] = useState(typeReports[0]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -15,7 +28,7 @@ export default function ReportData() {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (
@@ -26,12 +39,31 @@ export default function ReportData() {
       return Swal.fire("Opss!", "Error en el año o mes ingresado", "warning");
     }
 
-    
-    console.log(formatDate(input.year, input.mount, input.day));
+    const stringDate = formatDate(input.year, input.mount, input.day);
+
+    const data =
+      typeReport !== typeReports[0]
+        ? await getDataDrawOut(stringDate)
+        : await getData(stringDate);
+
+    const worksheet = XLSX.utils.json_to_sheet(data.data);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Reporte");
+
+    XLSX.utils.sheet_add_aoa(worksheet, data.header, {
+      origin: "A1",
+    });
+
+    XLSX.writeFile(workbook, `${typeReport}_${stringDate}.xlsx`, {
+      compression: true,
+    });
   };
 
   return (
     <Box component="form" onSubmit={handleSubmit}>
+      <Grid item xs={12}>
+        <h1 style={{ textAlign: "center", color: "blue"}}>Reportes</h1>
+      </Grid>
       <Grid container spacing={2}>
         <Grid item xs={4}>
           <FormControl fullWidth sx={{ m: 1 }} variant="standard">
@@ -69,7 +101,29 @@ export default function ReportData() {
           </FormControl>
         </Grid>
         <Grid item xs={12}>
-          <Button fullWidth variant="outlined" endIcon={<SendIcon />}>
+          <FormControl fullWidth>
+            <InputLabel id="typeReport">Tipo de reporte</InputLabel>
+            <Select
+              labelId="typeReport"
+              value={typeReport}
+              label="Tipo de reporte"
+              onChange={(e) => setTypeReport(e.target.value)}
+            >
+              {typeReports.map((item) => (
+                <MenuItem key={item} value={item}>
+                  {item}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid item xs={12}>
+          <Button
+            fullWidth
+            type="submit"
+            variant="outlined"
+            endIcon={<SendIcon />}
+          >
             Generar Reporte
           </Button>
         </Grid>
