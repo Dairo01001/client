@@ -52,8 +52,6 @@ const Person = () => {
     });
   };
 
-  console.log(persona);
-
   return (
     <Box
       sx={{
@@ -167,7 +165,7 @@ const Person = () => {
                                         <TableCell>
                                           {Employees.length === 0
                                             ? "Sin asignar"
-                                            : Employees[0].Team.name}
+                                            : Employees[0].Team?.name}
                                         </TableCell>
                                       </TableRow>
                                     );

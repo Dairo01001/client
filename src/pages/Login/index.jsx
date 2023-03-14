@@ -19,6 +19,18 @@ import { login } from "../../services/login";
 import { useDispatch } from "react-redux";
 import { addUser } from "../../redux/reducers/userSlice";
 
+const Toast = Swal.mixin({
+  toast: true,
+  position: "bottom-end",
+  showConfirmButton: false,
+  timer: 3000,
+  timerProgressBar: true,
+  didOpen: (toast) => {
+    toast.addEventListener("mouseenter", Swal.stopTimer);
+    toast.addEventListener("mouseleave", Swal.resumeTimer);
+  },
+});
+
 const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -40,6 +52,10 @@ const Login = () => {
           } else {
             navigate(`/motos`);
           }
+          Toast.fire({
+            icon: "success",
+            title: "Bienvenido",
+          });
         })
         .catch((err) => {
           Swal.fire("Error!", err.response.data.msg, "error");

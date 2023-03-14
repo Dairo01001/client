@@ -1,4 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
+import { persistReducer, persistStore } from "redux-persist";
+import storage from "redux-persist/lib/storage";
+import thunk from "redux-thunk";
 import userReducer from "./reducers/userSlice";
 import employeeReducer from "./reducers/employeeSlice";
 import teamSlice from "./reducers/teamSlice";
@@ -8,9 +11,16 @@ import brandSlice from "./reducers/brandSlice";
 import facturaSlice from "./reducers/faturaSlice";
 import motoSlice from "./reducers/motoSlice";
 
-export default configureStore({
+const persistConfig = {
+  key: "root",
+  storage,
+};
+
+const persistedReducer = persistReducer(persistConfig, userReducer);
+
+export const store = configureStore({
   reducer: {
-    user: userReducer,
+    user: persistedReducer,
     employee: employeeReducer,
     team: teamSlice,
     combo: comboSlice,
@@ -19,4 +29,7 @@ export default configureStore({
     factura: facturaSlice,
     motos: motoSlice,
   },
+  middleware: [thunk],
 });
+
+export const persistor = persistStore(store);
