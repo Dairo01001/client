@@ -107,7 +107,7 @@ const MotosTable = () => {
           minWidth: "250px",
         }}
       >{`Total pago: ${copFormat(
-        auxFacturas.reduce((acc, cur) => acc + +cur.total, 0)
+        auxFacturas.reduce((acc, cur) => acc + (cur.isPaid ? +cur.total : 0), 0)
       )}`}</Typography>
       <Table>
         <TableHead>
