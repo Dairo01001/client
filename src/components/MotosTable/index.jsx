@@ -7,6 +7,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Typography,
 } from "@mui/material";
 import React, { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
@@ -21,6 +22,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addData } from "../../redux/reducers/motoSlice";
 import SearchAppBar from "../SearchAppBar";
 import Filter from "../Filter";
+import { copFormat } from "../../utils/formatDate";
 
 const MotosTable = () => {
   const auxFacturas = useSelector((state) => state.motos.auxFacturas);
@@ -36,6 +38,8 @@ const MotosTable = () => {
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  console.log(auxFacturas);
 
   const handleChangePago = (data) => {
     setPagoMoto(data)
@@ -94,6 +98,17 @@ const MotosTable = () => {
     <TableContainer component={Paper}>
       <SearchAppBar />
       <Filter />
+      <Typography
+        component="h3"
+        sx={{
+          fontWeight: "bold",
+          margin: "1rem",
+          textAlign: "center",
+          minWidth: "250px",
+        }}
+      >{`Total pago: ${copFormat(
+        auxFacturas.reduce((acc, cur) => acc + +cur.total, 0)
+      )}`}</Typography>
       <Table>
         <TableHead>
           <TableRow>
@@ -121,9 +136,7 @@ const MotosTable = () => {
               <TableCell align="left">{Motorcycle.plaque}</TableCell>
               <TableCell align="right">
                 {Employees.length !== 0 ? (
-                  <IconButton component={Link} to={`/edit/${id}`}>
-                    <DoneOutlineIcon />
-                  </IconButton>
+                  <Link to={`/edit/${id}`}>{Employees[0]?.Team?.name}</Link>
                 ) : (
                   <IconButton component={Link} to={`/venta/${id}`}>
                     <AssignmentIndIcon />
