@@ -100,7 +100,7 @@ const Venta = () => {
               fullWidth
               id="name"
               label="Nombre Combo"
-              value={data.Combo.name}
+              value={data.Combo?.name}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -112,7 +112,7 @@ const Venta = () => {
               InputProps={{
                 endAdornment: <MonetizationOnIcon />,
               }}
-              value={data.Combo.price}
+              value={data.Combo?.price}
             />
           </Grid>
           <Grid item xs={12}>
@@ -121,7 +121,7 @@ const Venta = () => {
               fullWidth
               id="description"
               label="Descripcion"
-              value={data.Combo.description}
+              value={data.Combo?.description}
             />
           </Grid>
           {!message && (

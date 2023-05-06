@@ -39,8 +39,6 @@ const MotosTable = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  console.log(auxFacturas);
-
   const handleChangePago = (data) => {
     setPagoMoto(data)
       .then(() => {
